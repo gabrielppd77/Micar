@@ -1,0 +1,3 @@
+# Normalize all text files to LF in the repository, regardless of the
+# platform or tool (Visual Studio, dotnet ef, editors) that created them.
+* text=auto eol=lf

@@ -1,3 +1,4 @@
+using Domain.Users;
 using Domain.Veiculos;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,6 +11,7 @@ public class MicarDbContext : DbContext
     }
 
     public DbSet<Veiculo> Veiculos => Set<Veiculo>();
+    public DbSet<User> Users => Set<User>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -7,10 +7,7 @@ public static class DependencyInjection
 {
     public static void AddApi(this IServiceCollection services)
     {
-        services
-            .AddControllers()
-            .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
-
+        services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
         services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddProblemDetails();
     }
@@ -18,11 +15,9 @@ public static class DependencyInjection
     public static void UseApi(this WebApplication app)
     {
         app.UseExceptionHandler();
-
         app.UseHttpsRedirection();
-
+        app.UseAuthentication();
         app.UseAuthorization();
-
-        app.MapControllers();
+        app.MapControllers().RequireAuthorization();
     }
 }
