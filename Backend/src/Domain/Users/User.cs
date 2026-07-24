@@ -1,5 +1,6 @@
 using Domain.Common;
 using Domain.Exceptions;
+using Domain.Veiculos;
 
 namespace Domain.Users;
 
@@ -8,6 +9,7 @@ public class User : Entity
     public string Name { get; private set; } = string.Empty;
     public string Email { get; private set; } = string.Empty;
     public string Password { get; private set; } = string.Empty;
+    public ICollection<Veiculo> Veiculos { get; private set; } = new List<Veiculo>();
 
     private User()
     {

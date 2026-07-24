@@ -33,6 +33,13 @@ internal sealed class GlobalExceptionHandler() : IExceptionHandler
             problemDetails.Title = "Ocorreu um erro com a sua solicitação, verifique as informações";
         }
 
+        if (exception is UnauthorizedException)
+        {
+            problemDetails.Status = StatusCodes.Status401Unauthorized;
+            problemDetails.Type = "https://datatracker.ietf.org/doc/html/rfc7235#section-3.1";
+            problemDetails.Title = "Não autorizado";
+        }
+
         httpContext.Response.StatusCode = problemDetails.Status.Value;
 
         await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
