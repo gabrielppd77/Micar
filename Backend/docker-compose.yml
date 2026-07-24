@@ -1,0 +1,28 @@
+services:
+  api:
+    image: ${DOCKER_REGISTRY-}micar-api
+    build:
+      context: .
+      dockerfile: src/Api/Dockerfile
+    ports:
+      - "5000:8080"
+      - "5001:8081"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Database=micar;Username=postgres;Password=123456"
+    depends_on:
+      - db
+  db:
+    image: postgres:18.1
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: micar
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - db-volume:/var/lib/postgresql/data
+
+volumes:
+  db-volume:

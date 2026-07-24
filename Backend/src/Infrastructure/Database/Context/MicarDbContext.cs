@@ -1,0 +1,24 @@
+using Domain.Veiculos;
+using Microsoft.EntityFrameworkCore;
+
+namespace Infrastructure.Database.Context;
+
+public class MicarDbContext : DbContext
+{
+    public MicarDbContext(DbContextOptions<MicarDbContext> options) : base(options)
+    {
+    }
+
+    public DbSet<Veiculo> Veiculos => Set<Veiculo>();
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(MicarDbContext).Assembly);
+        modelBuilder.HasDefaultSchema(Schemas.Default);
+    }
+
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        configurationBuilder.Properties<Enum>().HaveConversion<string>();
+    }
+}
