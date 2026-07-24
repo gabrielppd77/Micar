@@ -1,6 +1,6 @@
-namespace Application.Users.Login;
+namespace Application.Usuarios.Login;
 
-public class LoginUserRequest
+public class LoginUsuarioRequest
 {
     public required string Email { get; set; }
     public required string Password { get; set; }

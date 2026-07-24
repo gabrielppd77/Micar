@@ -1,8 +1,8 @@
-using Domain.Users;
+using Domain.Usuarios;
 
 namespace Contracts.Authentications;
 
 public interface IJwtTokenGenerator
 {
-    string GenerateToken(User user);
+    string GenerateToken(Usuario usuario);
 }

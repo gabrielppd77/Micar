@@ -1,10 +1,10 @@
 using Contracts.Repositories;
-using Contracts.Repositories.Users;
+using Contracts.Repositories.Usuarios;
 using Contracts.Repositories.Veiculos;
 using Infrastructure.Authentications;
 using Infrastructure.Database.Context;
 using Infrastructure.Database.Repositories;
-using Infrastructure.Database.Repositories.Users;
+using Infrastructure.Database.Repositories.Usuarios;
 using Infrastructure.Database.Repositories.Veiculos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
@@ -27,7 +27,7 @@ public static class DependencyInjection
                 .UseSnakeCaseNamingConvention());
 
         services.AddScoped<IVeiculoRepository, VeiculoRepository>();
-        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUsuarioRepository, UsuarioRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         services.AddAuth(configuration);

@@ -2,20 +2,20 @@ using Domain.Common;
 using Domain.Exceptions;
 using Domain.Veiculos;
 
-namespace Domain.Users;
+namespace Domain.Usuarios;
 
-public class User : Entity
+public class Usuario : Entity
 {
     public string Name { get; private set; } = string.Empty;
     public string Email { get; private set; } = string.Empty;
     public string Password { get; private set; } = string.Empty;
     public ICollection<Veiculo> Veiculos { get; private set; } = new List<Veiculo>();
 
-    private User()
+    private Usuario()
     {
     }
 
-    public User(string name, string email, string password)
+    public Usuario(string name, string email, string password)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new BadRequestException("Nome é obrigatório.");

@@ -12,9 +12,9 @@ public class VeiculoConfiguration : IEntityTypeConfiguration<Veiculo>
 
         builder.Property(v => v.Placa).HasMaxLength(Veiculo.PlacaLength);
 
-        builder.HasOne(v => v.User)
+        builder.HasOne(v => v.Usuario)
             .WithMany(u => u.Veiculos)
-            .HasForeignKey(v => v.UserId)
+            .HasForeignKey(v => v.UsuarioId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

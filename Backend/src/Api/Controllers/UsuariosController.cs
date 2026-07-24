@@ -1,5 +1,5 @@
-using Application.Users.Create;
-using Application.Users.Login;
+using Application.Usuarios.Create;
+using Application.Usuarios.Login;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,27 +7,27 @@ namespace Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class UsersController : ControllerBase
+public class UsuariosController : ControllerBase
 {
     [AllowAnonymous]
     [HttpPost]
     public async Task<IActionResult> Create(
-        CreateUserService createUserService,
-        CreateUserRequest request,
+        CreateUsuarioService createUsuarioService,
+        CreateUsuarioRequest request,
         CancellationToken ct)
     {
-        var response = await createUserService.ExecuteAsync(request, ct);
+        var response = await createUsuarioService.ExecuteAsync(request, ct);
         return Ok(response);
     }
 
     [AllowAnonymous]
     [HttpPost("login")]
     public async Task<IActionResult> Login(
-        LoginUserService loginUserService,
-        LoginUserRequest request,
+        LoginUsuarioService loginUsuarioService,
+        LoginUsuarioRequest request,
         CancellationToken ct)
     {
-        var response = await loginUserService.ExecuteAsync(request, ct);
+        var response = await loginUsuarioService.ExecuteAsync(request, ct);
         return Ok(response);
     }
 }

@@ -23,7 +23,7 @@ namespace Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Domain.Users.User", b =>
+            modelBuilder.Entity("Domain.Usuarios.Usuario", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -46,13 +46,13 @@ namespace Infrastructure.Migrations
                         .HasColumnName("password");
 
                     b.HasKey("Id")
-                        .HasName("pk_users");
+                        .HasName("pk_usuarios");
 
                     b.HasIndex("Email")
                         .IsUnique()
-                        .HasDatabaseName("ix_users_email");
+                        .HasDatabaseName("ix_usuarios_email");
 
-                    b.ToTable("users", "public");
+                    b.ToTable("usuarios", "public");
                 });
 
             modelBuilder.Entity("Domain.Veiculos.Veiculo", b =>
@@ -78,32 +78,32 @@ namespace Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("tipo_veiculo");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid>("UsuarioId")
                         .HasColumnType("uuid")
-                        .HasColumnName("user_id");
+                        .HasColumnName("usuario_id");
 
                     b.HasKey("Id")
                         .HasName("pk_veiculos");
 
-                    b.HasIndex("UserId")
-                        .HasDatabaseName("ix_veiculos_user_id");
+                    b.HasIndex("UsuarioId")
+                        .HasDatabaseName("ix_veiculos_usuario_id");
 
                     b.ToTable("veiculos", "public");
                 });
 
             modelBuilder.Entity("Domain.Veiculos.Veiculo", b =>
                 {
-                    b.HasOne("Domain.Users.User", "User")
+                    b.HasOne("Domain.Usuarios.Usuario", "Usuario")
                         .WithMany("Veiculos")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_veiculos_users_user_id");
+                        .HasConstraintName("fk_veiculos_usuarios_usuario_id");
 
-                    b.Navigation("User");
+                    b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("Domain.Users.User", b =>
+            modelBuilder.Entity("Domain.Usuarios.Usuario", b =>
                 {
                     b.Navigation("Veiculos");
                 });

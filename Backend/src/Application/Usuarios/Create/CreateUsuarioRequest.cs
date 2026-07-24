@@ -1,6 +1,6 @@
-namespace Application.Users.Create;
+namespace Application.Usuarios.Create;
 
-public class CreateUserRequest
+public class CreateUsuarioRequest
 {
     public required string Name { get; set; }
     public required string Email { get; set; }

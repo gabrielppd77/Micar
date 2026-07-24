@@ -9,23 +9,23 @@ public class CreateVeiculoService
 {
     private readonly IVeiculoRepository _veiculoRepository;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly ICurrentUserService _currentUserService;
+    private readonly ICurrentUsuarioService _currentUsuarioService;
 
     public CreateVeiculoService(
         IVeiculoRepository veiculoRepository,
         IUnitOfWork unitOfWork,
-        ICurrentUserService currentUserService)
+        ICurrentUsuarioService currentUsuarioService)
     {
         _veiculoRepository = veiculoRepository;
         _unitOfWork = unitOfWork;
-        _currentUserService = currentUserService;
+        _currentUsuarioService = currentUsuarioService;
     }
 
     public async Task ExecuteAsync(CreateVeiculoRequest request, CancellationToken ct)
     {
-        var userId = _currentUserService.GetUserId();
+        var usuarioId = _currentUsuarioService.GetUsuarioId();
 
-        var veiculo = new Veiculo(request.Placa, request.Apelido, request.TipoVeiculo, userId);
+        var veiculo = new Veiculo(request.Placa, request.Apelido, request.TipoVeiculo, usuarioId);
 
         await _veiculoRepository.AddAsync(veiculo, ct);
 

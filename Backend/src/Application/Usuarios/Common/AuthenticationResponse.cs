@@ -1,4 +1,4 @@
-namespace Application.Users.Common;
+namespace Application.Usuarios.Common;
 
 public class AuthenticationResponse
 {

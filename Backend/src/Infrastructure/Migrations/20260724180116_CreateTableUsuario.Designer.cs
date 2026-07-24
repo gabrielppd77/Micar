@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(MicarDbContext))]
-    [Migration("20260724011327_CreateTableUser")]
-    partial class CreateTableUser
+    [Migration("20260724180116_CreateTableUsuario")]
+    partial class CreateTableUsuario
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,7 +26,7 @@ namespace Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Domain.Users.User", b =>
+            modelBuilder.Entity("Domain.Usuarios.Usuario", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -49,13 +49,13 @@ namespace Infrastructure.Migrations
                         .HasColumnName("password");
 
                     b.HasKey("Id")
-                        .HasName("pk_users");
+                        .HasName("pk_usuarios");
 
                     b.HasIndex("Email")
                         .IsUnique()
-                        .HasDatabaseName("ix_users_email");
+                        .HasDatabaseName("ix_usuarios_email");
 
-                    b.ToTable("users", "public");
+                    b.ToTable("usuarios", "public");
                 });
 
             modelBuilder.Entity("Domain.Veiculos.Veiculo", b =>
@@ -81,10 +81,34 @@ namespace Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("tipo_veiculo");
 
+                    b.Property<Guid>("UsuarioId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("usuario_id");
+
                     b.HasKey("Id")
                         .HasName("pk_veiculos");
 
+                    b.HasIndex("UsuarioId")
+                        .HasDatabaseName("ix_veiculos_usuario_id");
+
                     b.ToTable("veiculos", "public");
+                });
+
+            modelBuilder.Entity("Domain.Veiculos.Veiculo", b =>
+                {
+                    b.HasOne("Domain.Usuarios.Usuario", "Usuario")
+                        .WithMany("Veiculos")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_veiculos_usuarios_usuario_id");
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("Domain.Usuarios.Usuario", b =>
+                {
+                    b.Navigation("Veiculos");
                 });
 #pragma warning restore 612, 618
         }
