@@ -33,6 +33,6 @@ public class LoginUsuarioService
 
         var token = _jwtTokenGenerator.GenerateToken(usuario);
 
-        return new AuthenticationResponse() { Token = token };
+        return new AuthenticationResponse(token);
     }
 }

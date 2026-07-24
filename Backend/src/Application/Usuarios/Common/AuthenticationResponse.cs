@@ -2,5 +2,10 @@ namespace Application.Usuarios.Common;
 
 public class AuthenticationResponse
 {
-    public required string Token { get; set; }
+    public string Token { get; set; }
+
+    public AuthenticationResponse(string token)
+    {
+        Token = token;
+    }
 }
