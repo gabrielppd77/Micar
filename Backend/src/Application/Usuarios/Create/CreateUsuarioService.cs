@@ -35,12 +35,12 @@ public class CreateUsuarioService
         if (usuarioEncontrado is not null)
             throw new BadRequestException("O email informado já está cadastrado.");
 
-        if (request.Password.Length < PasswordMinLength)
+        if (request.Senha.Length < PasswordMinLength)
             throw new BadRequestException($"A senha deve ter no mínimo {PasswordMinLength} caracteres.");
 
-        var hashedPassword = _passwordHasher.HashPassword(request.Password);
+        var hashedPassword = _passwordHasher.HashPassword(request.Senha);
 
-        var usuario = new Usuario(request.Name, request.Email, hashedPassword);
+        var usuario = new Usuario(request.Nome, request.Email, hashedPassword);
 
         await _usuarioRepository.AddAsync(usuario, ct);
 

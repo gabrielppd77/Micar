@@ -28,7 +28,7 @@ public class LoginUsuarioService
         if (usuario is null)
             throw new BadRequestException("Email ou senha inválidos.");
 
-        if (!_passwordHasher.VerifyPassword(request.Password, usuario.Password))
+        if (!_passwordHasher.VerifyPassword(request.Senha, usuario.Senha))
             throw new BadRequestException("Email ou senha inválidos.");
 
         var token = _jwtTokenGenerator.GenerateToken(usuario);
