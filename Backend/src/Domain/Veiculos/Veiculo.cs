@@ -1,5 +1,6 @@
 using Domain.Common;
 using Domain.Exceptions;
+using Domain.RegistrosOdometro;
 using Domain.Usuarios;
 
 namespace Domain.Veiculos;
@@ -11,6 +12,7 @@ public class Veiculo : Entity
     public TipoVeiculoEnum TipoVeiculo { get; private set; }
     public Guid UsuarioId { get; private set; }
     public Usuario? Usuario { get; private set; }
+    public ICollection<RegistroOdometro> RegistrosOdometro { get; private set; } = new List<RegistroOdometro>();
 
     public const int PlacaLength = 7;
 

@@ -1,3 +1,8 @@
+using Application.RegistrosOdometro.Create;
+using Application.RegistrosOdometro.Delete;
+using Application.RegistrosOdometro.GetAll;
+using Application.RegistrosOdometro.GetById;
+using Application.RegistrosOdometro.Update;
 using Application.Usuarios.Create;
 using Application.Usuarios.Login;
 using Application.Veiculos.Create;
@@ -20,5 +25,10 @@ public static class DependencyInjection
         services.AddScoped<GetAllVeiculosService>();
         services.AddScoped<CreateUsuarioService>();
         services.AddScoped<LoginUsuarioService>();
+        services.AddScoped<CreateRegistroOdometroService>();
+        services.AddScoped<UpdateRegistroOdometroService>();
+        services.AddScoped<DeleteRegistroOdometroService>();
+        services.AddScoped<GetRegistroOdometroByIdService>();
+        services.AddScoped<GetAllRegistrosOdometroService>();
     }
 }

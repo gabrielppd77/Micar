@@ -1,3 +1,4 @@
+using Domain.RegistrosOdometro;
 using Domain.Usuarios;
 using Domain.Veiculos;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ public class MicarDbContext : DbContext
 
     public DbSet<Veiculo> Veiculos => Set<Veiculo>();
     public DbSet<Usuario> Usuarios => Set<Usuario>();
+    public DbSet<RegistroOdometro> RegistrosOdometro => Set<RegistroOdometro>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
