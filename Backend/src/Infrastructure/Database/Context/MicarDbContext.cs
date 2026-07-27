@@ -1,3 +1,4 @@
+using Domain.Manutencoes;
 using Domain.RegistrosOdometro;
 using Domain.Usuarios;
 using Domain.Veiculos;
@@ -14,6 +15,7 @@ public class MicarDbContext : DbContext
     public DbSet<Veiculo> Veiculos => Set<Veiculo>();
     public DbSet<Usuario> Usuarios => Set<Usuario>();
     public DbSet<RegistroOdometro> RegistrosOdometro => Set<RegistroOdometro>();
+    public DbSet<Manutencao> Manutencoes => Set<Manutencao>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

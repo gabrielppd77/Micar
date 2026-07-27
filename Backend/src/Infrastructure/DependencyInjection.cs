@@ -1,10 +1,12 @@
 using Contracts.Repositories;
+using Contracts.Repositories.Manutencoes;
 using Contracts.Repositories.RegistrosOdometro;
 using Contracts.Repositories.Usuarios;
 using Contracts.Repositories.Veiculos;
 using Infrastructure.Authentications;
 using Infrastructure.Database.Context;
 using Infrastructure.Database.Repositories;
+using Infrastructure.Database.Repositories.Manutencoes;
 using Infrastructure.Database.Repositories.RegistrosOdometro;
 using Infrastructure.Database.Repositories.Usuarios;
 using Infrastructure.Database.Repositories.Veiculos;
@@ -31,6 +33,7 @@ public static class DependencyInjection
         services.AddScoped<IVeiculoRepository, VeiculoRepository>();
         services.AddScoped<IUsuarioRepository, UsuarioRepository>();
         services.AddScoped<IRegistroOdometroRepository, RegistroOdometroRepository>();
+        services.AddScoped<IManutencaoRepository, ManutencaoRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         services.AddAuth(configuration);

@@ -1,5 +1,6 @@
 using Domain.Common;
 using Domain.Exceptions;
+using Domain.Manutencoes;
 using Domain.RegistrosOdometro;
 using Domain.Usuarios;
 
@@ -13,6 +14,7 @@ public class Veiculo : Entity
     public Guid UsuarioId { get; private set; }
     public Usuario? Usuario { get; private set; }
     public ICollection<RegistroOdometro> RegistrosOdometro { get; private set; } = new List<RegistroOdometro>();
+    public ICollection<Manutencao> Manutencoes { get; private set; } = new List<Manutencao>();
 
     public const int PlacaLength = 7;
 

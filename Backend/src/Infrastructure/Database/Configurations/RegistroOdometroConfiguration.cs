@@ -14,5 +14,10 @@ public class RegistroOdometroConfiguration : IEntityTypeConfiguration<RegistroOd
             .WithMany(v => v.RegistrosOdometro)
             .HasForeignKey(r => r.VeiculoId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasOne(r => r.Manutencao)
+            .WithOne(m => m.RegistroOdometro)
+            .HasForeignKey<RegistroOdometro>(r => r.ManutencaoId)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

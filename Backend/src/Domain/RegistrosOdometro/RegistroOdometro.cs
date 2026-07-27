@@ -1,5 +1,6 @@
 using Domain.Common;
 using Domain.Exceptions;
+using Domain.Manutencoes;
 using Domain.Veiculos;
 
 namespace Domain.RegistrosOdometro;
@@ -10,12 +11,14 @@ public class RegistroOdometro : Entity
     public int Odometro { get; private set; }
     public Guid VeiculoId { get; private set; }
     public Veiculo? Veiculo { get; private set; }
+    public Guid? ManutencaoId { get; private set; }
+    public Manutencao? Manutencao { get; private set; }
 
     private RegistroOdometro()
     {
     }
 
-    public RegistroOdometro(DateOnly data, int odometro, Guid veiculoId)
+    public RegistroOdometro(DateOnly data, int odometro, Guid veiculoId, Guid? manutencaoId = null)
     {
         if (veiculoId == Guid.Empty)
             throw new BadRequestException("Veículo é obrigatório.");
@@ -23,6 +26,7 @@ public class RegistroOdometro : Entity
         Data = ValidarData(data);
         Odometro = ValidarOdometro(odometro);
         VeiculoId = veiculoId;
+        ManutencaoId = manutencaoId;
     }
 
     public void Atualizar(DateOnly data, int odometro)
