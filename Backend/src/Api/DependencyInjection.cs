@@ -15,7 +15,12 @@ public static class DependencyInjection
     public static void UseApi(this WebApplication app)
     {
         app.UseExceptionHandler();
-        app.UseHttpsRedirection();
+
+        if (!app.Environment.IsDevelopment())
+        {
+            app.UseHttpsRedirection();
+        }
+
         app.UseAuthentication();
         app.UseAuthorization();
         app.MapControllers().RequireAuthorization();

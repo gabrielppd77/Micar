@@ -1,5 +1,13 @@
-import HomeScreen from './src/screens/HomeScreen';
+import { RootNavigator } from "./src/navigation/RootNavigator";
+import { AuthProvider } from "./src/providers/AuthProvider";
+import { QueryClientProvider } from "./src/providers/QueryClientProvider";
 
-export default function App() {
-  return <HomeScreen />;
+export function App() {
+  return (
+    <QueryClientProvider>
+      <AuthProvider>
+        <RootNavigator />
+      </AuthProvider>
+    </QueryClientProvider>
+  );
 }
