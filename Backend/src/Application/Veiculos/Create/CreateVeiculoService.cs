@@ -1,8 +1,6 @@
 using Contracts.Authentications;
 using Contracts.Repositories;
-using Contracts.Repositories.RegistrosOdometro;
 using Contracts.Repositories.Veiculos;
-using Domain.RegistrosOdometro;
 using Domain.Veiculos;
 
 namespace Application.Veiculos.Create;
@@ -10,18 +8,15 @@ namespace Application.Veiculos.Create;
 public class CreateVeiculoService
 {
     private readonly IVeiculoRepository _veiculoRepository;
-    private readonly IRegistroOdometroRepository _registroOdometroRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ICurrentUsuarioService _currentUsuarioService;
 
     public CreateVeiculoService(
         IVeiculoRepository veiculoRepository,
-        IRegistroOdometroRepository registroOdometroRepository,
         IUnitOfWork unitOfWork,
         ICurrentUsuarioService currentUsuarioService)
     {
         _veiculoRepository = veiculoRepository;
-        _registroOdometroRepository = registroOdometroRepository;
         _unitOfWork = unitOfWork;
         _currentUsuarioService = currentUsuarioService;
     }
@@ -35,14 +30,7 @@ public class CreateVeiculoService
         await _veiculoRepository.AddAsync(veiculo, ct);
 
         if (request.Odometro.HasValue)
-        {
-            var registroOdometro = new RegistroOdometro(
-                DateOnly.FromDateTime(DateTime.UtcNow),
-                request.Odometro.Value,
-                veiculo.Id);
-
-            await _registroOdometroRepository.AddAsync(registroOdometro, ct);
-        }
+            veiculo.AtualizarOdometroAtual(request.Odometro.Value, DateOnly.FromDateTime(DateTime.UtcNow));
 
         await _unitOfWork.SaveChangesAsync(ct);
     }

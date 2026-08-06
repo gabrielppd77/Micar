@@ -40,6 +40,16 @@ public class Veiculo : Entity
         TipoVeiculo = tipoVeiculo;
     }
 
+    public void AtualizarOdometroAtual(int odometro, DateOnly data)
+    {
+        var ultimoRegistroOdometro = RegistrosOdometro.FirstOrDefault();
+
+        if (ultimoRegistroOdometro is not null)
+            ultimoRegistroOdometro.Atualizar(data, odometro);
+        else
+            RegistrosOdometro.Add(new RegistroOdometro(data, odometro, Id));
+    }
+
     private static string ValidarPlaca(string placa)
     {
         if (string.IsNullOrWhiteSpace(placa))
