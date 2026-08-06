@@ -1,4 +1,4 @@
-import { api } from "../../../../libs/api";
+import { api } from "../../../../../libs/api";
 import type { AuthenticationResponse } from "../../../common/api/types/AuthenticationResponse";
 import type { LoginUsuarioRequest } from "../types/LoginUsuarioRequest";
 

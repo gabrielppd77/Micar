@@ -8,45 +8,35 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Button } from "../../../components/Button";
+import { TextInput } from "../../../components/TextInput";
 
-import { Button } from "../../components/Button";
-import { TextInput } from "../../components/TextInput";
-
-import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { useAuth } from "../../hooks/useAuth";
-import { useGoTo } from "../../hooks/useGoTo";
-import { useCreate } from "./mutations/useCreate";
-
-const PASSWORD_MIN_LENGTH = 6;
+import { useAuth } from "../../../hooks/useAuth";
+import { useGoTo } from "../../../hooks/useGoTo";
+import { useLogin } from "./mutations/useLogin";
 
 const schema = z.object({
-  nome: z.string().trim().min(1, "Informe o nome."),
-  email: z.email("Informe um email válido"),
-  senha: z
-    .string()
-    .min(
-      PASSWORD_MIN_LENGTH,
-      `A senha deve ter no mínimo ${PASSWORD_MIN_LENGTH} caracteres.`,
-    ),
+  email: z.email("Informe um email válido."),
+  senha: z.string().min(1, "Informe a senha."),
 });
 
-type CadastroFormValues = z.infer<typeof schema>;
+type LoginFormValues = z.infer<typeof schema>;
 
-export function CadastroScreen() {
-  const { control, handleSubmit } = useForm<CadastroFormValues>({
+export function LoginScreen() {
+  const { control, handleSubmit } = useForm<LoginFormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { nome: "", email: "", senha: "" },
+    defaultValues: { email: "", senha: "" },
   });
-  const { mutateAsync, isPending } = useCreate();
+  const { mutateAsync, isPending } = useLogin();
   const { setToken } = useAuth();
-  const { goToLogin } = useGoTo();
-  const emailRef = useRef<TextInputNative>(null);
+  const { goToCadastro } = useGoTo();
   const senhaRef = useRef<TextInputNative>(null);
 
-  async function onSubmit(values: CadastroFormValues) {
+  async function onSubmit(values: LoginFormValues) {
     const response = await mutateAsync(values);
     setToken(response.token);
   }
@@ -67,32 +57,14 @@ export function CadastroScreen() {
 
           <View className="rounded-2xl bg-white p-6 shadow-sm">
             <Text className="mb-4 text-xl font-bold text-brand-900">
-              Criar conta
+              Entrar
             </Text>
-
-            <Controller
-              control={control}
-              name="nome"
-              render={({ field, fieldState }) => (
-                <TextInput
-                  label="Nome"
-                  value={field.value}
-                  onChangeText={field.onChange}
-                  onBlur={field.onBlur}
-                  error={fieldState.error?.message}
-                  placeholder="Seu nome"
-                  returnKeyType="next"
-                  onSubmitEditing={() => emailRef.current?.focus()}
-                />
-              )}
-            />
 
             <Controller
               control={control}
               name="email"
               render={({ field, fieldState }) => (
                 <TextInput
-                  ref={emailRef}
                   label="Email"
                   value={field.value}
                   onChangeText={field.onChange}
@@ -119,7 +91,7 @@ export function CadastroScreen() {
                   onBlur={field.onBlur}
                   error={fieldState.error?.message}
                   isPassword
-                  placeholder={`Mínimo ${PASSWORD_MIN_LENGTH} caracteres`}
+                  placeholder="Sua senha"
                   returnKeyType="done"
                   onSubmitEditing={handleSubmit(onSubmit)}
                 />
@@ -127,15 +99,15 @@ export function CadastroScreen() {
             />
 
             <Button
-              label="Criar conta"
+              label="Entrar"
               onPress={handleSubmit(onSubmit)}
               loading={isPending}
             />
           </View>
 
           <Button
-            label="Já tem uma conta? Entrar"
-            onPress={goToLogin}
+            label="Não tem uma conta? Cadastre-se"
+            onPress={goToCadastro}
             variant="ghost"
           />
         </ScrollView>
