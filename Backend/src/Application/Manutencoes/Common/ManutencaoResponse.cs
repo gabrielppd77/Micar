@@ -12,6 +12,7 @@ public class ManutencaoResponse
     public int? Odometro { get; set; }
     public int? OdometroVencimento { get; set; }
     public DateOnly? DataVencimento { get; set; }
+    public decimal? Valor { get; set; }
 
     public ManutencaoResponse(Manutencao manutencao)
     {
@@ -23,5 +24,6 @@ public class ManutencaoResponse
         Odometro = manutencao.RegistroOdometro?.Odometro;
         OdometroVencimento = manutencao.OdometroVencimento;
         DataVencimento = manutencao.DataVencimento;
+        Valor = manutencao.Valor;
     }
 }

@@ -14,12 +14,13 @@ public class Manutencao : Entity
     public RegistroOdometro? RegistroOdometro { get; private set; }
     public int? OdometroVencimento { get; private set; }
     public DateOnly? DataVencimento { get; private set; }
+    public decimal? Valor { get; private set; }
 
     private Manutencao()
     {
     }
 
-    public Manutencao(DateOnly data, string nome, Guid veiculoId, int? odometroVencimento, DateOnly? dataVencimento)
+    public Manutencao(DateOnly data, string nome, Guid veiculoId, int? odometroVencimento, DateOnly? dataVencimento, decimal? valor)
     {
         if (veiculoId == Guid.Empty)
             throw new BadRequestException("Veículo é obrigatório.");
@@ -29,14 +30,16 @@ public class Manutencao : Entity
         VeiculoId = veiculoId;
         OdometroVencimento = ValidarOdometroVencimento(odometroVencimento);
         DataVencimento = dataVencimento;
+        Valor = ValidarValor(valor);
     }
 
-    public void Atualizar(DateOnly data, string nome, int? odometroVencimento, DateOnly? dataVencimento)
+    public void Atualizar(DateOnly data, string nome, int? odometroVencimento, DateOnly? dataVencimento, decimal? valor)
     {
         Data = ValidarData(data);
         Nome = ValidarNome(nome);
         OdometroVencimento = ValidarOdometroVencimento(odometroVencimento);
         DataVencimento = dataVencimento;
+        Valor = ValidarValor(valor);
     }
 
     private static DateOnly ValidarData(DateOnly data)
@@ -61,5 +64,13 @@ public class Manutencao : Entity
             throw new BadRequestException("Odômetro de vencimento deve ser maior ou igual a zero.");
 
         return odometroVencimento;
+    }
+
+    private static decimal? ValidarValor(decimal? valor)
+    {
+        if (valor is <= 0)
+            throw new BadRequestException("Valor da manutenção deve ser maior que zero.");
+
+        return valor;
     }
 }

@@ -10,6 +10,9 @@ public class ManutencaoConfiguration : IEntityTypeConfiguration<Manutencao>
     {
         builder.HasKey(m => m.Id);
 
+        builder.Property(m => m.Valor)
+            .HasColumnType("numeric(18,2)");
+
         builder.HasOne(m => m.Veiculo)
             .WithMany(v => v.Manutencoes)
             .HasForeignKey(m => m.VeiculoId)

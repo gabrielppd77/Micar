@@ -45,7 +45,8 @@ public class CreateManutencaoService
             request.Nome,
             veiculo.Id,
             request.OdometroVencimento,
-            request.DataVencimento);
+            request.DataVencimento,
+            request.Valor);
 
         var registroOdometro = new RegistroOdometro(
             request.Data,
