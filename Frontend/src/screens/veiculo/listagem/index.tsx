@@ -2,8 +2,8 @@ import { StatusBar } from "expo-status-bar";
 import { ActivityIndicator, FlatList, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { Button } from "../../../components/Button";
-import { useAuth } from "../../../hooks/useAuth";
+import { Button } from "@/components/Button";
+import { useAuth } from "@/hooks/useAuth";
 import { useVeiculos } from "./queries/useVeiculos";
 
 export function VeiculoListScreen() {

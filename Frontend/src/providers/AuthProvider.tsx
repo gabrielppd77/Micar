@@ -1,8 +1,8 @@
 import * as SecureStore from "expo-secure-store";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
-import { AuthContext } from "../contexts/AuthContext";
-import { api } from "../libs/api";
+import { AuthContext } from "@/contexts/AuthContext";
+import { api } from "@/libs/api";
 
 const TOKEN_KEY = "token";
 

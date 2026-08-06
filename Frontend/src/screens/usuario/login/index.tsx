@@ -8,15 +8,15 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Button } from "../../../components/Button";
-import { TextInput } from "../../../components/TextInput";
+import { Button } from "@/components/Button";
+import { TextInput } from "@/components/TextInput";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { useAuth } from "../../../hooks/useAuth";
-import { useGoTo } from "../../../hooks/useGoTo";
+import { useAuth } from "@/hooks/useAuth";
+import { useGoTo } from "@/hooks/useGoTo";
 import { useLogin } from "./mutations/useLogin";
 
 const schema = z.object({

@@ -2,7 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import { AppNavigator } from "./AppNavigator";
 import { AuthNavigator } from "./AuthNavigator";
 

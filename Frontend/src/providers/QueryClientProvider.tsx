@@ -5,7 +5,7 @@ import {
   QueryClientProvider as QueryClientProviderLib,
 } from "@tanstack/react-query";
 
-import { fireError } from "../libs/alert";
+import { fireError } from "@/libs/alert";
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: 1 } },

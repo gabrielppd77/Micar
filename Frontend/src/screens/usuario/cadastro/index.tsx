@@ -9,15 +9,15 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { Button } from "../../../components/Button";
-import { TextInput } from "../../../components/TextInput";
+import { Button } from "@/components/Button";
+import { TextInput } from "@/components/TextInput";
 
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { useAuth } from "../../../hooks/useAuth";
-import { useGoTo } from "../../../hooks/useGoTo";
+import { useAuth } from "@/hooks/useAuth";
+import { useGoTo } from "@/hooks/useGoTo";
 import { useCreate } from "./mutations/useCreate";
 
 const PASSWORD_MIN_LENGTH = 6;
