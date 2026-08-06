@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { VeiculoListScreen } from "../screens/Veiculo/Listagem";
+import { VeiculoListScreen } from "../screens/veiculo/listagem";
 import type { AppStackParamList } from "./types";
 
 const Stack = createNativeStackNavigator<AppStackParamList>();
