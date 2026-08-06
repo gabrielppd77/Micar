@@ -8,6 +8,7 @@ public class VeiculoResponse
     public string Placa { get; set; }
     public string Apelido { get; set; }
     public TipoVeiculoEnum TipoVeiculo { get; set; }
+    public int? OdometroAtual { get; set; }
 
     public VeiculoResponse(Veiculo veiculo)
     {
@@ -15,5 +16,6 @@ public class VeiculoResponse
         Placa = veiculo.Placa;
         Apelido = veiculo.Apelido;
         TipoVeiculo = veiculo.TipoVeiculo;
+        OdometroAtual = veiculo.RegistrosOdometro.FirstOrDefault()?.Odometro;
     }
 }
