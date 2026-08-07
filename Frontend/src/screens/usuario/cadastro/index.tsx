@@ -17,8 +17,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { useAuth } from "@/hooks/useAuth";
-import { useGoTo } from "@/hooks/useGoTo";
-import { useCreate } from "./mutations/useCreate";
+import { useAuthGoTo } from "@/hooks/useAuthGoTo";
+import { useCreateUsuario } from "../common/mutations/useCreateUsuario";
 
 const PASSWORD_MIN_LENGTH = 6;
 
@@ -40,9 +40,9 @@ export function CadastroScreen() {
     resolver: zodResolver(schema),
     defaultValues: { nome: "", email: "", senha: "" },
   });
-  const { mutateAsync, isPending } = useCreate();
+  const { mutateAsync, isPending } = useCreateUsuario();
   const { setToken } = useAuth();
-  const { goToLogin } = useGoTo();
+  const { goToLogin } = useAuthGoTo();
   const emailRef = useRef<TextInputNative>(null);
   const senhaRef = useRef<TextInputNative>(null);
 

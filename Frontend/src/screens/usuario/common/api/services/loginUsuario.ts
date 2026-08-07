@@ -1,5 +1,5 @@
 import { api } from "@/libs/api";
-import type { AuthenticationResponse } from "../../../common/api/types/AuthenticationResponse";
+import type { AuthenticationResponse } from "../types/AuthenticationResponse";
 import type { LoginUsuarioRequest } from "../types/LoginUsuarioRequest";
 
 export async function loginUsuario(data: LoginUsuarioRequest) {

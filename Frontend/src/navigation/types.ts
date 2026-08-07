@@ -4,5 +4,8 @@ export type AuthStackParamList = {
 };
 
 export type AppStackParamList = {
-  Veiculo: undefined;
+  VeiculoList: undefined;
+  VeiculoForm: { id?: string } | undefined;
+  Home: undefined;
+  Perfil: undefined;
 };

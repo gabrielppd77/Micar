@@ -3,7 +3,7 @@ import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import type { AuthStackParamList } from "@/navigation/types";
 
-export function useGoTo() {
+export function useAuthGoTo() {
   const navigation =
     useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
 

@@ -16,8 +16,8 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { useAuth } from "@/hooks/useAuth";
-import { useGoTo } from "@/hooks/useGoTo";
-import { useLogin } from "./mutations/useLogin";
+import { useAuthGoTo } from "@/hooks/useAuthGoTo";
+import { useLoginUsuario } from "../common/mutations/useLoginUsuario";
 
 const schema = z.object({
   email: z.email("Informe um email válido."),
@@ -31,9 +31,9 @@ export function LoginScreen() {
     resolver: zodResolver(schema),
     defaultValues: { email: "", senha: "" },
   });
-  const { mutateAsync, isPending } = useLogin();
+  const { mutateAsync, isPending } = useLoginUsuario();
   const { setToken } = useAuth();
-  const { goToCadastro } = useGoTo();
+  const { goToCadastro } = useAuthGoTo();
   const senhaRef = useRef<TextInputNative>(null);
 
   async function onSubmit(values: LoginFormValues) {
