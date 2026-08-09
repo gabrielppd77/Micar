@@ -1,6 +1,7 @@
 export interface JwtPayload {
   name?: string;
   email?: string;
+  exp?: number;
   [key: string]: unknown;
 }
 
@@ -17,4 +18,9 @@ export function decodeJwt(token: string): JwtPayload | null {
   } catch {
     return null;
   }
+}
+
+export function isTokenExpired(token: string): boolean {
+  const exp = decodeJwt(token)?.exp;
+  return typeof exp === "number" && Date.now() >= exp * 1000;
 }
