@@ -53,11 +53,34 @@ public class Veiculo : Entity
 
     public void RegistrarOdometro(int odometro, DateOnly data)
     {
+        GarantirOdometroValido(odometro);
+
+        RegistrosOdometro.Add(new RegistroOdometro(data, odometro, Id));
+    }
+
+    public void RegistrarManutencao(
+        DateOnly data,
+        string nome,
+        int odometro,
+        int? odometroVencimento,
+        DateOnly? dataVencimento,
+        decimal? valor)
+    {
+        GarantirOdometroValido(odometro);
+
+        var manutencao = new Manutencao(data, nome, Id, odometroVencimento, dataVencimento, valor);
+        var registroOdometro = new RegistroOdometro(data, odometro, Id, manutencao.Id);
+
+        manutencao.VincularRegistroOdometro(registroOdometro);
+        Manutencoes.Add(manutencao);
+        RegistrosOdometro.Add(registroOdometro);
+    }
+
+    private void GarantirOdometroValido(int odometro)
+    {
         if (UltimoRegistroOdometro is not null && odometro <= UltimoRegistroOdometro.Odometro)
             throw new BadRequestException(
                 $"Odômetro deve ser maior que o último registrado ({UltimoRegistroOdometro.Odometro} km).");
-
-        RegistrosOdometro.Add(new RegistroOdometro(data, odometro, Id));
     }
 
     private static string ValidarPlaca(string placa)

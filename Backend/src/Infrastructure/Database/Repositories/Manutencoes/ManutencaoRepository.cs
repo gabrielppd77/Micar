@@ -14,11 +14,6 @@ public class ManutencaoRepository : IManutencaoRepository
         _dbContext = dbContext;
     }
 
-    public async Task AddAsync(Manutencao manutencao, CancellationToken ct)
-    {
-        await _dbContext.Manutencoes.AddAsync(manutencao, ct);
-    }
-
     public async Task<Manutencao?> GetByIdAsync(Guid id, CancellationToken ct)
     {
         return await _dbContext.Manutencoes

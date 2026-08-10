@@ -30,8 +30,13 @@ public class UpdateManutencaoService
         if (manutencao is null || manutencao.Veiculo?.UsuarioId != usuarioId)
             throw new NotFoundException("Manutenção não encontrada.");
 
-        manutencao.Atualizar(request.Data, request.Nome, request.OdometroVencimento, request.DataVencimento, request.Valor);
-        manutencao.RegistroOdometro!.Atualizar(request.Data, request.Odometro);
+        manutencao.Atualizar(
+            request.Data,
+            request.Nome,
+            request.OdometroVencimento,
+            request.DataVencimento,
+            request.Valor,
+            request.Odometro);
 
         await _unitOfWork.SaveChangesAsync(ct);
     }
