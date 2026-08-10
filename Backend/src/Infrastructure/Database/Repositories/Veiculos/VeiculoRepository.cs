@@ -22,14 +22,14 @@ public class VeiculoRepository : IVeiculoRepository
     public async Task<Veiculo?> GetByIdAsync(Guid id, CancellationToken ct)
     {
         return await _dbContext.Veiculos
-            .Include(v => v.RegistrosOdometro.OrderByDescending(r => r.Data).Take(1))
+            .Include(v => v.RegistrosOdometro.OrderByDescending(r => r.Data).ThenByDescending(r => r.Odometro).Take(1))
             .FirstOrDefaultAsync(v => v.Id == id, ct);
     }
 
     public async Task<List<Veiculo>> GetAllByUsuarioIdAsync(Guid usuarioId, CancellationToken ct)
     {
         return await _dbContext.Veiculos
-            .Include(v => v.RegistrosOdometro.OrderByDescending(r => r.Data).Take(1))
+            .Include(v => v.RegistrosOdometro.OrderByDescending(r => r.Data).ThenByDescending(r => r.Odometro).Take(1))
             .Where(v => v.UsuarioId == usuarioId)
             .ToListAsync(ct);
     }

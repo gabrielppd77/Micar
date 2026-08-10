@@ -17,7 +17,7 @@ public class Veiculo : Entity
     public ICollection<Manutencao> Manutencoes { get; private set; } = new List<Manutencao>();
 
     public RegistroOdometro? UltimoRegistroOdometro =>
-        RegistrosOdometro.OrderByDescending(r => r.Data).FirstOrDefault();
+        RegistrosOdometro.OrderByDescending(r => r.Data).ThenByDescending(r => r.Odometro).FirstOrDefault();
 
     public const int PlacaLength = 7;
 
