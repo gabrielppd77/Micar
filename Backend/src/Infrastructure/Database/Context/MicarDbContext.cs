@@ -1,8 +1,10 @@
+using Domain.Common;
 using Domain.Manutencoes;
 using Domain.RegistrosOdometro;
 using Domain.Usuarios;
 using Domain.Veiculos;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Infrastructure.Database.Context;
 
@@ -21,6 +23,13 @@ public class MicarDbContext : DbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(MicarDbContext).Assembly);
         modelBuilder.HasDefaultSchema(Schemas.Default);
+
+        foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+        {
+            var idProperty = entityType.FindProperty(nameof(Entity.Id));
+            if (idProperty is not null)
+                idProperty.ValueGenerated = ValueGenerated.Never;
+        }
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
