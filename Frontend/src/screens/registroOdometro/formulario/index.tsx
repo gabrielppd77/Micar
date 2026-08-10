@@ -1,10 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRoute, type RouteProp } from "@react-navigation/native";
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
   KeyboardAvoidingView,
   Platform,
+  Pressable,
   ScrollView,
   Text,
   View,
@@ -44,6 +45,9 @@ type RegistroOdometroFormRouteProp = RouteProp<
   "RegistroOdometroForm"
 >;
 
+const INCREMENTOS_RAPIDOS = [1000, 4000, 6000];
+const PASSO_AJUSTE_FINO = 10;
+
 export function RegistroOdometroFormScreen() {
   const { goToHome } = useAppGoTo();
   const route = useRoute<RegistroOdometroFormRouteProp>();
@@ -58,10 +62,29 @@ export function RegistroOdometroFormScreen() {
     [veiculo?.odometroAtual],
   );
 
-  const { control, handleSubmit } = useForm<RegistroOdometroFormValues>({
-    resolver: zodResolver(schema),
-    defaultValues: { odometro: "" },
-  });
+  const { control, handleSubmit, getValues, setValue, reset } =
+    useForm<RegistroOdometroFormValues>({
+      resolver: zodResolver(schema),
+      defaultValues: { odometro: "" },
+    });
+
+  const odometroInicializado = useRef(false);
+
+  useEffect(() => {
+    if (veiculo?.odometroAtual != null && !odometroInicializado.current) {
+      odometroInicializado.current = true;
+      reset({ odometro: String(veiculo.odometroAtual) });
+    }
+  }, [veiculo?.odometroAtual, reset]);
+
+  function handleAjustar(passo: number) {
+    const atual = Number(getValues("odometro")) || 0;
+    const proximo = Math.max(0, atual + passo);
+    setValue("odometro", String(proximo), {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  }
 
   async function onSubmit(values: RegistroOdometroFormValues) {
     await createRegistroOdometro({
@@ -123,6 +146,46 @@ export function RegistroOdometroFormScreen() {
                 />
               )}
             />
+
+            <Text className="mb-2 text-sm font-medium text-brand-900">
+              Adicionar quilometragem
+            </Text>
+            <View className="mb-4 flex-row gap-3">
+              {INCREMENTOS_RAPIDOS.map((incremento) => (
+                <Pressable
+                  key={incremento}
+                  onPress={() => handleAjustar(incremento)}
+                  className="flex-1 items-center rounded-xl bg-accent-500 py-4 active:bg-accent-600"
+                >
+                  <Text className="text-base font-bold text-white">
+                    +{incremento / 1000}mil
+                  </Text>
+                </Pressable>
+              ))}
+            </View>
+
+            <Text className="mb-2 text-sm font-medium text-brand-900">
+              Ajuste fino
+            </Text>
+            <View className="mb-4 flex-row items-center justify-center gap-6">
+              <Pressable
+                onPress={() => handleAjustar(-PASSO_AJUSTE_FINO)}
+                className="h-16 w-16 items-center justify-center rounded-full bg-brand-100 active:bg-brand-200"
+              >
+                <Text className="text-3xl font-bold text-brand-600">−</Text>
+              </Pressable>
+
+              <Text className="min-w-[64px] text-center text-sm text-brand-500">
+                {PASSO_AJUSTE_FINO} km
+              </Text>
+
+              <Pressable
+                onPress={() => handleAjustar(PASSO_AJUSTE_FINO)}
+                className="h-16 w-16 items-center justify-center rounded-full bg-brand-100 active:bg-brand-200"
+              >
+                <Text className="text-3xl font-bold text-brand-600">+</Text>
+              </Pressable>
+            </View>
 
             <Button
               label="Salvar registro"
