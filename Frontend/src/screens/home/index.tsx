@@ -2,11 +2,14 @@ import { StatusBar } from "expo-status-bar";
 import { ActivityIndicator, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { Button } from "@/components/Button";
 import { ProfileButton } from "@/components/ProfileButton";
+import { useAppGoTo } from "@/hooks/useAppGoTo";
 import { useSelectedVeiculo } from "@/hooks/useSelectedVeiculo";
 import { useVeiculo } from "@/screens/veiculo/common/queries/useVeiculo";
 
 export function HomeScreen() {
+  const { goToRegistroOdometroForm } = useAppGoTo();
   const { selectedVeiculoId } = useSelectedVeiculo();
   const { data: veiculo, isLoading } = useVeiculo(
     selectedVeiculoId ?? undefined,
@@ -35,6 +38,15 @@ export function HomeScreen() {
           Gráficos e manutenções futuras aparecerão aqui em breve.
         </Text>
       </View>
+
+      {selectedVeiculoId && (
+        <View className="w-full py-4">
+          <Button
+            label="Registrar odômetro"
+            onPress={() => goToRegistroOdometroForm(selectedVeiculoId)}
+          />
+        </View>
+      )}
     </SafeAreaView>
   );
 }

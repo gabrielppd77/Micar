@@ -16,6 +16,9 @@ public class Veiculo : Entity
     public ICollection<RegistroOdometro> RegistrosOdometro { get; private set; } = new List<RegistroOdometro>();
     public ICollection<Manutencao> Manutencoes { get; private set; } = new List<Manutencao>();
 
+    public RegistroOdometro? UltimoRegistroOdometro =>
+        RegistrosOdometro.OrderByDescending(r => r.Data).FirstOrDefault();
+
     public const int PlacaLength = 7;
 
     private Veiculo()
@@ -42,12 +45,19 @@ public class Veiculo : Entity
 
     public void AtualizarOdometroAtual(int odometro, DateOnly data)
     {
-        var ultimoRegistroOdometro = RegistrosOdometro.FirstOrDefault();
-
-        if (ultimoRegistroOdometro is not null)
-            ultimoRegistroOdometro.Atualizar(data, odometro);
+        if (UltimoRegistroOdometro is not null)
+            UltimoRegistroOdometro.Atualizar(data, odometro);
         else
             RegistrosOdometro.Add(new RegistroOdometro(data, odometro, Id));
+    }
+
+    public void RegistrarOdometro(int odometro, DateOnly data)
+    {
+        if (UltimoRegistroOdometro is not null && odometro <= UltimoRegistroOdometro.Odometro)
+            throw new BadRequestException(
+                $"Odômetro deve ser maior que o último registrado ({UltimoRegistroOdometro.Odometro} km).");
+
+        RegistrosOdometro.Add(new RegistroOdometro(data, odometro, Id));
     }
 
     private static string ValidarPlaca(string placa)

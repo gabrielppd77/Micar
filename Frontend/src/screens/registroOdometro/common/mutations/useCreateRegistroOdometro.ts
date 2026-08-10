@@ -1,0 +1,17 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { veiculosKeys } from "@/screens/veiculo/common/queries/keys";
+import { createRegistroOdometro } from "../api/services/createRegistroOdometro";
+
+export function useCreateRegistroOdometro() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: createRegistroOdometro,
+    onSuccess: (_, { veiculoId }) => {
+      queryClient.invalidateQueries({
+        queryKey: veiculosKeys.detail(veiculoId),
+      });
+    },
+  });
+}

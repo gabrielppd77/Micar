@@ -23,5 +23,15 @@ export function useAppGoTo() {
     navigation.navigate("Perfil");
   }
 
-  return { goToVeiculoList, goToVeiculoForm, goToHome, goToPerfil };
+  function goToRegistroOdometroForm(veiculoId: string) {
+    navigation.navigate("RegistroOdometroForm", { veiculoId });
+  }
+
+  return {
+    goToVeiculoList,
+    goToVeiculoForm,
+    goToHome,
+    goToPerfil,
+    goToRegistroOdometroForm,
+  };
 }

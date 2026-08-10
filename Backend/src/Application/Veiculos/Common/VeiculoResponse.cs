@@ -16,6 +16,6 @@ public class VeiculoResponse
         Placa = veiculo.Placa;
         Apelido = veiculo.Apelido;
         TipoVeiculo = veiculo.TipoVeiculo;
-        OdometroAtual = veiculo.RegistrosOdometro.FirstOrDefault()?.Odometro;
+        OdometroAtual = veiculo.UltimoRegistroOdometro?.Odometro;
     }
 }

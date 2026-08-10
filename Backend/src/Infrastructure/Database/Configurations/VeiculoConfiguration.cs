@@ -10,6 +10,8 @@ public class VeiculoConfiguration : IEntityTypeConfiguration<Veiculo>
     {
         builder.HasKey(v => v.Id);
 
+        builder.Ignore(v => v.UltimoRegistroOdometro);
+
         builder.Property(v => v.Placa).HasMaxLength(Veiculo.PlacaLength);
 
         builder.HasOne(v => v.Usuario)

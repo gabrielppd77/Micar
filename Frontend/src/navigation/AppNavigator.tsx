@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useSelectedVeiculo } from "@/hooks/useSelectedVeiculo";
 import { HomeScreen } from "@/screens/home";
+import { RegistroOdometroFormScreen } from "@/screens/registroOdometro/formulario";
 import { PerfilScreen } from "@/screens/usuario/perfil";
 import { VeiculoFormScreen } from "@/screens/veiculo/formulario";
 import { VeiculoListScreen } from "@/screens/veiculo/listagem";
@@ -31,6 +32,10 @@ export function AppNavigator() {
       <Stack.Screen name="VeiculoForm" component={VeiculoFormScreen} />
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Perfil" component={PerfilScreen} />
+      <Stack.Screen
+        name="RegistroOdometroForm"
+        component={RegistroOdometroFormScreen}
+      />
     </Stack.Navigator>
   );
 }

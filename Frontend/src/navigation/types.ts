@@ -8,4 +8,5 @@ export type AppStackParamList = {
   VeiculoForm: { id?: string } | undefined;
   Home: undefined;
   Perfil: undefined;
+  RegistroOdometroForm: { veiculoId: string };
 };
