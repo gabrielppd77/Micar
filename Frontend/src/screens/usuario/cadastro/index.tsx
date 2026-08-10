@@ -18,7 +18,7 @@ import { z } from "zod";
 
 import { useAuth } from "@/hooks/useAuth";
 import { useAuthGoTo } from "@/hooks/useAuthGoTo";
-import { useCreateUsuario } from "../common/mutations/useCreateUsuario";
+import { useCreateUsuario } from "../mutations/useCreateUsuario";
 
 const PASSWORD_MIN_LENGTH = 6;
 

@@ -6,7 +6,7 @@ import { Button } from "@/components/Button";
 import { ProfileButton } from "@/components/ProfileButton";
 import { useAppGoTo } from "@/hooks/useAppGoTo";
 import { useSelectedVeiculo } from "@/hooks/useSelectedVeiculo";
-import { useVeiculo } from "@/screens/veiculo/common/queries/useVeiculo";
+import { useVeiculo } from "@/screens/veiculo/queries/useVeiculo";
 
 export function HomeScreen() {
   const { goToRegistroOdometroForm } = useAppGoTo();

@@ -16,8 +16,8 @@ import { Button } from "@/components/Button";
 import { TextInput } from "@/components/TextInput";
 import { useAppGoTo } from "@/hooks/useAppGoTo";
 import type { AppStackParamList } from "@/navigation/types";
-import { useVeiculo } from "@/screens/veiculo/common/queries/useVeiculo";
-import { useCreateRegistroOdometro } from "../common/mutations/useCreateRegistroOdometro";
+import { useVeiculo } from "@/screens/veiculo/queries/useVeiculo";
+import { useCreateRegistroOdometro } from "../mutations/useCreateRegistroOdometro";
 
 function createSchema(odometroAnterior: number | null | undefined) {
   return z.object({

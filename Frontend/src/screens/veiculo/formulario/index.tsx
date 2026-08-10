@@ -20,10 +20,10 @@ import { Button } from "@/components/Button";
 import { TextInput } from "@/components/TextInput";
 import { useAppGoTo } from "@/hooks/useAppGoTo";
 import type { AppStackParamList } from "@/navigation/types";
-import { TipoVeiculoEnum } from "../common/api/types/TipoVeiculoEnum";
-import { useCreateVeiculo } from "../common/mutations/useCreateVeiculo";
-import { useUpdateVeiculo } from "../common/mutations/useUpdateVeiculo";
-import { useVeiculo } from "../common/queries/useVeiculo";
+import { TipoVeiculoEnum } from "../api/types/TipoVeiculoEnum";
+import { useCreateVeiculo } from "../mutations/useCreateVeiculo";
+import { useUpdateVeiculo } from "../mutations/useUpdateVeiculo";
+import { useVeiculo } from "../queries/useVeiculo";
 
 const PLACA_LENGTH = 7;
 const TIPOS_VEICULO = Object.values(TipoVeiculoEnum);

@@ -13,9 +13,9 @@ import { Button } from "@/components/Button";
 import { ProfileButton } from "@/components/ProfileButton";
 import { useAppGoTo } from "@/hooks/useAppGoTo";
 import { useSelectedVeiculo } from "@/hooks/useSelectedVeiculo";
-import type { VeiculoResponse } from "../common/api/types/VeiculoResponse";
-import { useDeleteVeiculo } from "../common/mutations/useDeleteVeiculo";
-import { useVeiculos } from "../common/queries/useVeiculos";
+import type { VeiculoResponse } from "../api/types/VeiculoResponse";
+import { useDeleteVeiculo } from "../mutations/useDeleteVeiculo";
+import { useVeiculos } from "../queries/useVeiculos";
 
 export function VeiculoListScreen() {
   const { goToVeiculoForm, goToHome } = useAppGoTo();

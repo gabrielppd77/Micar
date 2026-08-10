@@ -17,7 +17,7 @@ import { z } from "zod";
 
 import { useAuth } from "@/hooks/useAuth";
 import { useAuthGoTo } from "@/hooks/useAuthGoTo";
-import { useLoginUsuario } from "../common/mutations/useLoginUsuario";
+import { useLoginUsuario } from "../mutations/useLoginUsuario";
 
 const schema = z.object({
   email: z.email("Informe um email válido."),
