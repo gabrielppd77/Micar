@@ -111,7 +111,7 @@ export function VeiculoFormScreen() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-brand-50">
+    <SafeAreaView edges={["top", "left", "right"]} className="flex-1 bg-brand-50">
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : undefined}
         className="flex-1"

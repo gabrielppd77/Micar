@@ -1,9 +1,12 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { AppTabBar } from "@/components/AppTabBar";
 import { useSelectedVeiculo } from "@/hooks/useSelectedVeiculo";
 import { HomeScreen } from "@/screens/home";
+import { ManutencaoFormScreen } from "@/screens/manutencao/formulario";
+import { ManutencaoListScreen } from "@/screens/manutencao/listagem";
 import { RegistroOdometroFormScreen } from "@/screens/registroOdometro/formulario";
 import { PerfilScreen } from "@/screens/usuario/perfil";
 import { VeiculoFormScreen } from "@/screens/veiculo/formulario";
@@ -24,18 +27,23 @@ export function AppNavigator() {
   }
 
   return (
-    <Stack.Navigator
-      screenOptions={{ headerShown: false }}
-      initialRouteName={selectedVeiculoId ? "Home" : "VeiculoList"}
-    >
-      <Stack.Screen name="VeiculoList" component={VeiculoListScreen} />
-      <Stack.Screen name="VeiculoForm" component={VeiculoFormScreen} />
-      <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="Perfil" component={PerfilScreen} />
-      <Stack.Screen
-        name="RegistroOdometroForm"
-        component={RegistroOdometroFormScreen}
-      />
-    </Stack.Navigator>
+    <View className="flex-1">
+      <Stack.Navigator
+        screenOptions={{ headerShown: false }}
+        initialRouteName={selectedVeiculoId ? "Home" : "VeiculoList"}
+      >
+        <Stack.Screen name="VeiculoList" component={VeiculoListScreen} />
+        <Stack.Screen name="VeiculoForm" component={VeiculoFormScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Perfil" component={PerfilScreen} />
+        <Stack.Screen
+          name="RegistroOdometroForm"
+          component={RegistroOdometroFormScreen}
+        />
+        <Stack.Screen name="ManutencaoList" component={ManutencaoListScreen} />
+        <Stack.Screen name="ManutencaoForm" component={ManutencaoFormScreen} />
+      </Stack.Navigator>
+      <AppTabBar />
+    </View>
   );
 }

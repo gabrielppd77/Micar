@@ -9,4 +9,6 @@ export type AppStackParamList = {
   Home: undefined;
   Perfil: undefined;
   RegistroOdometroForm: { veiculoId: string };
+  ManutencaoList: { veiculoId: string };
+  ManutencaoForm: { veiculoId: string; id?: string };
 };

@@ -7,7 +7,7 @@ import {
   type TextInputProps as TextInputPropsNative,
 } from "react-native";
 
-type TextInputProps = TextInputPropsNative & {
+export type TextInputProps = TextInputPropsNative & {
   label: string;
   error?: string;
   isPassword?: boolean;
