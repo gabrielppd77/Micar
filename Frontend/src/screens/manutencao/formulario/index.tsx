@@ -61,7 +61,7 @@ type ManutencaoFormValues = z.output<typeof schema>;
 type ManutencaoFormRouteProp = RouteProp<AppStackParamList, "ManutencaoForm">;
 
 export function ManutencaoFormScreen() {
-  const { goToManutencaoList } = useAppGoTo();
+  const { goBack, goToManutencaoList } = useAppGoTo();
   const route = useRoute<ManutencaoFormRouteProp>();
   const { veiculoId, id } = route.params;
   const isEditing = !!id;
@@ -157,7 +157,10 @@ export function ManutencaoFormScreen() {
 
   if (isEditing && isLoading) {
     return (
-      <SafeAreaView className="flex-1 items-center justify-center bg-brand-50">
+      <SafeAreaView
+        edges={["top", "left", "right"]}
+        className="flex-1 items-center justify-center bg-brand-50"
+      >
         <ActivityIndicator color="#2E6E8E" />
       </SafeAreaView>
     );
@@ -305,11 +308,7 @@ export function ManutencaoFormScreen() {
             />
           </View>
 
-          <Button
-            label="Cancelar"
-            onPress={() => goToManutencaoList(veiculoId)}
-            variant="ghost"
-          />
+          <Button label="Cancelar" onPress={goBack} variant="ghost" />
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>

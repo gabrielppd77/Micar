@@ -49,7 +49,7 @@ const INCREMENTOS_RAPIDOS = [1000, 4000, 6000];
 const PASSO_AJUSTE_FINO = 10;
 
 export function RegistroOdometroFormScreen() {
-  const { goToHome } = useAppGoTo();
+  const { goBack, goToHome } = useAppGoTo();
   const route = useRoute<RegistroOdometroFormRouteProp>();
   const { veiculoId } = route.params;
 
@@ -194,7 +194,7 @@ export function RegistroOdometroFormScreen() {
             />
           </View>
 
-          <Button label="Cancelar" onPress={goToHome} variant="ghost" />
+          <Button label="Cancelar" onPress={goBack} variant="ghost" />
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>

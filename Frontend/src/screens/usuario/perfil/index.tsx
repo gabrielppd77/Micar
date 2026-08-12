@@ -3,6 +3,7 @@ import { Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Button } from "@/components/Button";
+import { useAppGoTo } from "@/hooks/useAppGoTo";
 import { useAuth } from "@/hooks/useAuth";
 import { useSelectedVeiculo } from "@/hooks/useSelectedVeiculo";
 import { decodeJwt } from "@/libs/jwt";
@@ -10,6 +11,7 @@ import { decodeJwt } from "@/libs/jwt";
 export function PerfilScreen() {
   const { token, setToken } = useAuth();
   const { setSelectedVeiculoId } = useSelectedVeiculo();
+  const { goToVeiculoList } = useAppGoTo();
 
   const usuario = useMemo(() => (token ? decodeJwt(token) : null), [token]);
 
@@ -37,7 +39,10 @@ export function PerfilScreen() {
         </Text>
       </View>
 
-      <Button label="Sair" onPress={handleSair} variant="ghost" />
+      <View className="gap-3">
+        <Button label="Ver veículos" onPress={goToVeiculoList} />
+        <Button label="Sair" onPress={handleSair} variant="ghost" />
+      </View>
     </SafeAreaView>
   );
 }

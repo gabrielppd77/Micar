@@ -7,6 +7,10 @@ export function useAppGoTo() {
   const navigation =
     useNavigation<NativeStackNavigationProp<AppStackParamList>>();
 
+  function goBack() {
+    navigation.goBack();
+  }
+
   function goToVeiculoList() {
     navigation.navigate("VeiculoList");
   }
@@ -36,6 +40,7 @@ export function useAppGoTo() {
   }
 
   return {
+    goBack,
     goToVeiculoList,
     goToVeiculoForm,
     goToHome,

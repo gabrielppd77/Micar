@@ -1,3 +1,4 @@
+import { Ionicons } from "@expo/vector-icons";
 import type { ReactNode } from "react";
 import {
   ActivityIndicator,
@@ -7,6 +8,8 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+import { ProfileButton } from "@/components/ProfileButton";
 
 type RecordListScreenProps<T> = {
   title: string;
@@ -42,9 +45,12 @@ export function RecordListScreen<T>({
       edges={["top", "left", "right"]}
       className="flex-1 bg-brand-50 px-6 pt-6"
     >
-      <View className="mb-6">
-        <Text className="text-3xl font-bold text-brand-900">{title}</Text>
-        <Text className="text-base text-brand-500">{subtitle}</Text>
+      <View className="mb-6 flex-row items-center justify-between">
+        <View>
+          <Text className="text-3xl font-bold text-brand-900">{title}</Text>
+          <Text className="text-base text-brand-500">{subtitle}</Text>
+        </View>
+        <ProfileButton />
       </View>
 
       {isLoading ? (
@@ -113,12 +119,7 @@ function RecordListItem({
 
       {onSelect && (
         <View className="ml-3 h-9 w-9 items-center justify-center rounded-full bg-accent-500">
-          <Text
-            className="text-lg font-bold text-white"
-            style={{ lineHeight: 20 }}
-          >
-            {">"}
-          </Text>
+          <Ionicons name="chevron-forward" size={18} color="white" />
         </View>
       )}
     </View>

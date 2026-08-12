@@ -46,7 +46,7 @@ type VeiculoFormValues = z.infer<typeof schema>;
 type VeiculoFormRouteProp = RouteProp<AppStackParamList, "VeiculoForm">;
 
 export function VeiculoFormScreen() {
-  const { goToVeiculoList } = useAppGoTo();
+  const { goBack, goToVeiculoList } = useAppGoTo();
   const route = useRoute<VeiculoFormRouteProp>();
   const id = route.params?.id;
   const isEditing = !!id;
@@ -104,7 +104,10 @@ export function VeiculoFormScreen() {
 
   if (isEditing && isLoading) {
     return (
-      <SafeAreaView className="flex-1 items-center justify-center bg-brand-50">
+      <SafeAreaView
+        edges={["top", "left", "right"]}
+        className="flex-1 items-center justify-center bg-brand-50"
+      >
         <ActivityIndicator color="#2E6E8E" />
       </SafeAreaView>
     );
@@ -219,11 +222,7 @@ export function VeiculoFormScreen() {
             />
           </View>
 
-          <Button
-            label="Cancelar"
-            onPress={goToVeiculoList}
-            variant="ghost"
-          />
+          <Button label="Cancelar" onPress={goBack} variant="ghost" />
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
