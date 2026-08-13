@@ -1,4 +1,5 @@
 using Application.RegistrosOdometro.Create;
+using Application.RegistrosOdometro.GetStatus;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
@@ -15,5 +16,15 @@ public class RegistrosOdometroController : ControllerBase
     {
         await createRegistroOdometroService.ExecuteAsync(request, ct);
         return NoContent();
+    }
+
+    [HttpGet("veiculo/{veiculoId:guid}/status")]
+    public async Task<ActionResult<OdometroStatusResponse>> GetStatus(
+        GetStatusOdometroVeiculoService getStatusOdometroVeiculoService,
+        Guid veiculoId,
+        CancellationToken ct)
+    {
+        var status = await getStatusOdometroVeiculoService.ExecuteAsync(veiculoId, ct);
+        return Ok(status);
     }
 }

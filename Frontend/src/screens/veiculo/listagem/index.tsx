@@ -39,7 +39,9 @@ export function VeiculoListScreen() {
         emptyMessage="Nenhum veículo cadastrado."
         keyExtractor={(veiculo) => veiculo.id}
         renderTitle={(veiculo) => veiculo.apelido}
-        renderSubtitle={(veiculo) => `${veiculo.placa} · ${veiculo.tipoVeiculo}`}
+        renderSubtitle={(veiculo) =>
+          `${veiculo.placa} · ${veiculo.tipoVeiculo} · ${veiculo.odometroAtual} km`
+        }
         onSelect={handleSelect}
         onEdit={(veiculo) => goToVeiculoForm(veiculo.id)}
         onDelete={handleDelete}

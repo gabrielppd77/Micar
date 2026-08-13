@@ -4,6 +4,7 @@ using Application.Manutencoes.GetAll;
 using Application.Manutencoes.GetById;
 using Application.Manutencoes.Update;
 using Application.RegistrosOdometro.Create;
+using Application.RegistrosOdometro.GetStatus;
 using Application.Usuarios.Create;
 using Application.Usuarios.Login;
 using Application.Veiculos.Create;
@@ -27,6 +28,7 @@ public static class DependencyInjection
         services.AddScoped<CreateUsuarioService>();
         services.AddScoped<LoginUsuarioService>();
         services.AddScoped<CreateRegistroOdometroService>();
+        services.AddScoped<GetStatusOdometroVeiculoService>();
         services.AddScoped<CreateManutencaoService>();
         services.AddScoped<UpdateManutencaoService>();
         services.AddScoped<DeleteManutencaoService>();

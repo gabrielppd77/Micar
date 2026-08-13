@@ -5,9 +5,11 @@ import { ActivityIndicator, Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Fab } from "@/components/Fab";
+import { OdometroStatusAlert } from "@/components/OdometroStatusAlert";
 import { ProfileButton } from "@/components/ProfileButton";
 import { useAppGoTo } from "@/hooks/useAppGoTo";
 import { useSelectedVeiculo } from "@/hooks/useSelectedVeiculo";
+import { useOdometroStatus } from "@/screens/registroOdometro/queries/useOdometroStatus";
 import { useVeiculo } from "@/screens/veiculo/queries/useVeiculo";
 
 export function HomeScreen() {
@@ -26,6 +28,9 @@ export function HomeScreen() {
   }, [selectedVeiculoId]);
 
   const { data: veiculo, isLoading } = useVeiculo(
+    selectedVeiculoId ?? undefined,
+  );
+  const { data: odometroStatus } = useOdometroStatus(
     selectedVeiculoId ?? undefined,
   );
 
@@ -54,7 +59,8 @@ export function HomeScreen() {
             <ActivityIndicator className="mt-1 self-start" />
           ) : (
             <Text className="text-base text-brand-500">
-              {veiculo?.apelido} · {veiculo?.placa}
+              {veiculo?.apelido} · {veiculo?.placa} · {veiculo?.odometroAtual}{" "}
+              km
             </Text>
           )}
         </View>
@@ -69,10 +75,19 @@ export function HomeScreen() {
         </View>
       </View>
 
-      <View className="flex-1 items-center justify-center">
-        <Text className="text-center text-brand-500">
-          Gráficos e manutenções futuras aparecerão aqui em breve.
-        </Text>
+      <View className="flex-1 gap-3">
+        {odometroStatus && (
+          <OdometroStatusAlert
+            status={odometroStatus.status}
+            diasSemAtualizacao={odometroStatus.diasSemAtualizacao}
+          />
+        )}
+
+        <View className="flex-1 items-center justify-center">
+          <Text className="text-center text-brand-500">
+            Gráficos e manutenções futuras aparecerão aqui em breve.
+          </Text>
+        </View>
       </View>
 
       <Fab

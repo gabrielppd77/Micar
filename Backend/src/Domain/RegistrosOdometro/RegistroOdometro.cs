@@ -13,6 +13,8 @@ public class RegistroOdometro : Entity
     public Veiculo? Veiculo { get; private set; }
     public Guid? ManutencaoId { get; private set; }
     public Manutencao? Manutencao { get; private set; }
+    private const int LimiteDiasAtencao = 15;
+    private const int LimiteDiasDesatualizado = 30;
 
     private RegistroOdometro()
     {
@@ -33,6 +35,21 @@ public class RegistroOdometro : Entity
     {
         Data = ValidarData(data);
         Odometro = ValidarOdometro(odometro);
+    }
+
+    public int CalcularDiasSemAtualizacao(DateOnly hoje)
+    {
+        return hoje.DayNumber - Data.DayNumber;
+    }
+
+    public NivelAlertaEnum CalcularStatus(DateOnly hoje)
+    {
+        var dias = CalcularDiasSemAtualizacao(hoje);
+
+        if (dias >= LimiteDiasDesatualizado)
+            return NivelAlertaEnum.Critico;
+
+        return dias >= LimiteDiasAtencao ? NivelAlertaEnum.Atencao : NivelAlertaEnum.Normal;
     }
 
     private static DateOnly ValidarData(DateOnly data)
