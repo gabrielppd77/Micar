@@ -15,6 +15,11 @@ public class Manutencao : Entity
     public int? OdometroVencimento { get; private set; }
     public DateOnly? DataVencimento { get; private set; }
     public decimal? Valor { get; private set; }
+    private const double MargemProporcao = 0.15;
+    private const int MargemMinimaDias = 7;
+    private const int MargemMaximaDias = 45;
+    private const int MargemMinimaKm = 200;
+    private const int MargemMaximaKm = 1000;
 
     private Manutencao()
     {
@@ -36,6 +41,59 @@ public class Manutencao : Entity
     internal void VincularRegistroOdometro(RegistroOdometro registroOdometro)
     {
         RegistroOdometro = registroOdometro;
+    }
+
+    public NivelAlertaEnum CalcularStatus(DateOnly hoje, int? odometroAtual)
+    {
+        var statusPorData = CalcularStatusPorData(hoje);
+        var statusPorOdometro = CalcularStatusPorOdometro(odometroAtual);
+
+        return statusPorData > statusPorOdometro ? statusPorData : statusPorOdometro;
+    }
+
+    private NivelAlertaEnum CalcularStatusPorData(DateOnly hoje)
+    {
+        if (DataVencimento is null)
+            return NivelAlertaEnum.Normal;
+
+        if (hoje > DataVencimento.Value)
+            return NivelAlertaEnum.Critico;
+
+        var diasRestantes = DataVencimento.Value.DayNumber - hoje.DayNumber;
+
+        return diasRestantes <= CalcularMargemDias() ? NivelAlertaEnum.Atencao : NivelAlertaEnum.Normal;
+    }
+
+    private NivelAlertaEnum CalcularStatusPorOdometro(int? odometroAtual)
+    {
+        if (OdometroVencimento is null || odometroAtual is null)
+            return NivelAlertaEnum.Normal;
+
+        if (odometroAtual.Value >= OdometroVencimento.Value)
+            return NivelAlertaEnum.Critico;
+
+        var kmRestantes = OdometroVencimento.Value - odometroAtual.Value;
+
+        return kmRestantes <= CalcularMargemKm() ? NivelAlertaEnum.Atencao : NivelAlertaEnum.Normal;
+    }
+
+    private int CalcularMargemDias()
+    {
+        var intervaloDias = DataVencimento!.Value.DayNumber - Data.DayNumber;
+        if (intervaloDias <= 0)
+            return MargemMinimaDias;
+
+        return Math.Clamp((int)Math.Round(intervaloDias * MargemProporcao), MargemMinimaDias, MargemMaximaDias);
+    }
+
+    private int CalcularMargemKm()
+    {
+        var odometroBase = RegistroOdometro?.Odometro ?? 0;
+        var intervaloKm = OdometroVencimento!.Value - odometroBase;
+        if (intervaloKm <= 0)
+            return MargemMinimaKm;
+
+        return Math.Clamp((int)Math.Round(intervaloKm * MargemProporcao), MargemMinimaKm, MargemMaximaKm);
     }
 
     public void Atualizar(

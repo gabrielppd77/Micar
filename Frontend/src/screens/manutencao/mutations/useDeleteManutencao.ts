@@ -9,7 +9,7 @@ export function useDeleteManutencao() {
   return useMutation({
     mutationFn: deleteManutencao,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: manutencoesKeys.lists() });
+      queryClient.invalidateQueries({ queryKey: manutencoesKeys.all });
     },
   });
 }

@@ -1,14 +1,23 @@
 import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
-import { ActivityIndicator, Pressable, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Fab } from "@/components/Fab";
+import { ManutencaoPendenciaCard } from "@/components/ManutencaoPendenciaCard";
 import { OdometroStatusAlert } from "@/components/OdometroStatusAlert";
 import { ProfileButton } from "@/components/ProfileButton";
+import { VeiculoStatusBar } from "@/components/VeiculoStatusBar";
 import { useAppGoTo } from "@/hooks/useAppGoTo";
 import { useSelectedVeiculo } from "@/hooks/useSelectedVeiculo";
+import { useManutencaoStatus } from "@/screens/manutencao/queries/useManutencaoStatus";
 import { useOdometroStatus } from "@/screens/registroOdometro/queries/useOdometroStatus";
 import { useVeiculo } from "@/screens/veiculo/queries/useVeiculo";
 
@@ -28,6 +37,9 @@ export function HomeScreen() {
   }, [selectedVeiculoId]);
 
   const { data: veiculo, isLoading } = useVeiculo(
+    selectedVeiculoId ?? undefined,
+  );
+  const { data: status, isLoading: isStatusLoading } = useManutencaoStatus(
     selectedVeiculoId ?? undefined,
   );
   const { data: odometroStatus } = useOdometroStatus(
@@ -75,20 +87,50 @@ export function HomeScreen() {
         </View>
       </View>
 
-      <View className="flex-1 gap-3">
-        {odometroStatus && (
-          <OdometroStatusAlert
-            status={odometroStatus.status}
-            diasSemAtualizacao={odometroStatus.diasSemAtualizacao}
-          />
-        )}
-
+      {isStatusLoading ? (
         <View className="flex-1 items-center justify-center">
-          <Text className="text-center text-brand-500">
-            Gráficos e manutenções futuras aparecerão aqui em breve.
-          </Text>
+          <ActivityIndicator color="#2E6E8E" />
         </View>
-      </View>
+      ) : (
+        <ScrollView
+          className="flex-1"
+          contentContainerClassName="gap-3 pb-24"
+          showsVerticalScrollIndicator={false}
+        >
+          {odometroStatus && (
+            <OdometroStatusAlert
+              status={odometroStatus.status}
+              diasSemAtualizacao={odometroStatus.diasSemAtualizacao}
+            />
+          )}
+
+          {status && (
+            <VeiculoStatusBar
+              status={status.statusGeral}
+              quantidadeTotal={status.quantidadeTotal}
+              quantidadeEmDia={status.quantidadeEmDia}
+              quantidadeProximas={status.quantidadeProximas}
+              quantidadeVencidas={status.quantidadeVencidas}
+            />
+          )}
+
+          {status && status.pendencias.length > 0 ? (
+            status.pendencias.map((pendencia) => (
+              <ManutencaoPendenciaCard
+                key={pendencia.id}
+                pendencia={pendencia}
+                onPress={() =>
+                  goToManutencaoForm(selectedVeiculoId, pendencia.id)
+                }
+              />
+            ))
+          ) : (
+            <Text className="mt-4 text-center text-brand-500">
+              Nenhuma manutenção pendente. Tudo certo por aqui!
+            </Text>
+          )}
+        </ScrollView>
+      )}
 
       <Fab
         actions={[

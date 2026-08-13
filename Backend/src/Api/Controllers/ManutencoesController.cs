@@ -3,6 +3,7 @@ using Application.Manutencoes.Create;
 using Application.Manutencoes.Delete;
 using Application.Manutencoes.GetAll;
 using Application.Manutencoes.GetById;
+using Application.Manutencoes.GetStatus;
 using Application.Manutencoes.Update;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,6 +31,16 @@ public class ManutencoesController : ControllerBase
     {
         var manutencoes = await getAllManutencoesService.ExecuteAsync(veiculoId, ct);
         return Ok(manutencoes);
+    }
+
+    [HttpGet("veiculo/{veiculoId:guid}/status")]
+    public async Task<ActionResult<VeiculoStatusManutencaoResponse>> GetStatus(
+        GetStatusManutencoesVeiculoService getStatusManutencoesVeiculoService,
+        Guid veiculoId,
+        CancellationToken ct)
+    {
+        var status = await getStatusManutencoesVeiculoService.ExecuteAsync(veiculoId, ct);
+        return Ok(status);
     }
 
     [HttpGet("{id:guid}")]

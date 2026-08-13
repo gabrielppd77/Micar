@@ -4,4 +4,6 @@ export const manutencoesKeys = {
   list: (veiculoId: string) => [...manutencoesKeys.lists(), veiculoId] as const,
   details: () => [...manutencoesKeys.all, "detail"] as const,
   detail: (id: string) => [...manutencoesKeys.details(), id] as const,
+  status: (veiculoId: string) =>
+    [...manutencoesKeys.all, "status", veiculoId] as const,
 };

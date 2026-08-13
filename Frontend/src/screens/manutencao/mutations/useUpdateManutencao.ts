@@ -8,9 +8,8 @@ export function useUpdateManutencao() {
 
   return useMutation({
     mutationFn: updateManutencao,
-    onSuccess: (_, { id }) => {
-      queryClient.invalidateQueries({ queryKey: manutencoesKeys.lists() });
-      queryClient.invalidateQueries({ queryKey: manutencoesKeys.detail(id) });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: manutencoesKeys.all });
     },
   });
 }

@@ -12,6 +12,9 @@ export function useCreateManutencao() {
       queryClient.invalidateQueries({
         queryKey: manutencoesKeys.list(veiculoId),
       });
+      queryClient.invalidateQueries({
+        queryKey: manutencoesKeys.status(veiculoId),
+      });
     },
   });
 }

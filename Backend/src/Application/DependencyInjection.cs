@@ -2,6 +2,7 @@ using Application.Manutencoes.Create;
 using Application.Manutencoes.Delete;
 using Application.Manutencoes.GetAll;
 using Application.Manutencoes.GetById;
+using Application.Manutencoes.GetStatus;
 using Application.Manutencoes.Update;
 using Application.RegistrosOdometro.Create;
 using Application.RegistrosOdometro.GetStatus;
@@ -34,5 +35,6 @@ public static class DependencyInjection
         services.AddScoped<DeleteManutencaoService>();
         services.AddScoped<GetManutencaoByIdService>();
         services.AddScoped<GetAllManutencoesService>();
+        services.AddScoped<GetStatusManutencoesVeiculoService>();
     }
 }

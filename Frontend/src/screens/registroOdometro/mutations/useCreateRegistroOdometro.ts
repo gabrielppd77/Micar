@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+import { manutencoesKeys } from "@/screens/manutencao/queries/keys";
 import { veiculosKeys } from "@/screens/veiculo/queries/keys";
 import { createRegistroOdometro } from "../api/services/createRegistroOdometro";
 import { registrosOdometroKeys } from "../queries/keys";
@@ -12,6 +13,9 @@ export function useCreateRegistroOdometro() {
     onSuccess: (_, { veiculoId }) => {
       queryClient.invalidateQueries({
         queryKey: veiculosKeys.detail(veiculoId),
+      });
+      queryClient.invalidateQueries({
+        queryKey: manutencoesKeys.status(veiculoId),
       });
       queryClient.invalidateQueries({
         queryKey: registrosOdometroKeys.status(veiculoId),
