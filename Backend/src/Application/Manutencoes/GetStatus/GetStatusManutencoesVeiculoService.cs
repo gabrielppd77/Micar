@@ -37,6 +37,7 @@ public class GetStatusManutencoesVeiculoService
         var odometroAtual = veiculo.UltimoRegistroOdometro?.Odometro;
 
         var todas = manutencoes
+            .Where(m => m.DataConclusao is null)
             .Select(m => new ManutencaoPendenciaResponse(m, hoje, odometroAtual))
             .ToList();
 

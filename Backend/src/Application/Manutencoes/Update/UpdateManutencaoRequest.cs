@@ -8,4 +8,5 @@ public class UpdateManutencaoRequest
     public int? OdometroVencimento { get; set; }
     public DateOnly? DataVencimento { get; set; }
     public decimal? Valor { get; set; }
+    public DateOnly? DataConclusao { get; set; }
 }

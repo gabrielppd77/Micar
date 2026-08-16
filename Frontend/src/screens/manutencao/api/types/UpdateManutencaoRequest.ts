@@ -5,4 +5,5 @@ export interface UpdateManutencaoRequest {
   odometroVencimento?: number;
   dataVencimento?: string;
   valor?: number;
+  dataConclusao?: string;
 }

@@ -53,6 +53,7 @@ const schema = z.object({
       "Informe um valor válido.",
     )
     .optional(),
+  dataConclusao: zDateBR({ required: false }),
 });
 
 type ManutencaoFormInput = z.input<typeof schema>;
@@ -83,6 +84,7 @@ export function ManutencaoFormScreen() {
         odometroVencimento: "",
         dataVencimento: "",
         valor: "",
+        dataConclusao: "",
       },
     });
 
@@ -91,6 +93,7 @@ export function ManutencaoFormScreen() {
   const odometroVencimentoRef = useRef<TextInputNative>(null);
   const dataVencimentoRef = useRef<TextInputNative>(null);
   const valorRef = useRef<TextInputNative>(null);
+  const dataConclusaoRef = useRef<TextInputNative>(null);
   const odometroInicializado = useRef(false);
 
   useEffect(() => {
@@ -108,6 +111,9 @@ export function ManutencaoFormScreen() {
           ? toDateInput(manutencao.dataVencimento)
           : "",
         valor: manutencao.valor != null ? String(manutencao.valor) : "",
+        dataConclusao: manutencao.dataConclusao
+          ? toDateInput(manutencao.dataConclusao)
+          : "",
       });
     }
   }, [manutencao, reset]);
@@ -136,6 +142,7 @@ export function ManutencaoFormScreen() {
             : undefined,
           dataVencimento: values.dataVencimento,
           valor: values.valor ? Number(values.valor) : undefined,
+          dataConclusao: values.dataConclusao,
         },
       });
     } else {
@@ -295,11 +302,35 @@ export function ManutencaoFormScreen() {
                   error={fieldState.error?.message}
                   keyboardType="numeric"
                   placeholder="Opcional"
-                  returnKeyType="done"
-                  onSubmitEditing={handleSubmit(onSubmit)}
+                  returnKeyType={isEditing ? "next" : "done"}
+                  onSubmitEditing={
+                    isEditing
+                      ? () => dataConclusaoRef.current?.focus()
+                      : handleSubmit(onSubmit)
+                  }
                 />
               )}
             />
+
+            {isEditing && (
+              <Controller
+                control={control}
+                name="dataConclusao"
+                render={({ field, fieldState }) => (
+                  <DateField
+                    ref={dataConclusaoRef}
+                    label="Data de conclusão"
+                    value={field.value}
+                    onChangeText={field.onChange}
+                    onBlur={field.onBlur}
+                    error={fieldState.error?.message}
+                    placeholder="Opcional (DD/MM/AAAA) · preencha para concluir"
+                    returnKeyType="done"
+                    onSubmitEditing={handleSubmit(onSubmit)}
+                  />
+                )}
+              />
+            )}
 
             <Button
               label={isEditing ? "Salvar alterações" : "Cadastrar manutenção"}

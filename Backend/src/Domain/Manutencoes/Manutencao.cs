@@ -15,6 +15,7 @@ public class Manutencao : Entity
     public int? OdometroVencimento { get; private set; }
     public DateOnly? DataVencimento { get; private set; }
     public decimal? Valor { get; private set; }
+    public DateOnly? DataConclusao { get; private set; }
     private const double MargemProporcao = 0.15;
     private const int MargemMinimaDias = 7;
     private const int MargemMaximaDias = 45;
@@ -102,7 +103,8 @@ public class Manutencao : Entity
         int? odometroVencimento,
         DateOnly? dataVencimento,
         decimal? valor,
-        int odometro)
+        int odometro,
+        DateOnly? dataConclusao)
     {
         if (RegistroOdometro is null)
             throw new InvalidOperationException("Manutenção não possui registro de odômetro vinculado.");
@@ -112,6 +114,7 @@ public class Manutencao : Entity
         OdometroVencimento = ValidarOdometroVencimento(odometroVencimento);
         DataVencimento = dataVencimento;
         Valor = ValidarValor(valor);
+        DataConclusao = dataConclusao;
         RegistroOdometro.Atualizar(data, odometro);
     }
 

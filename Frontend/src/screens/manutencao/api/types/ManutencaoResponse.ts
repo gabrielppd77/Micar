@@ -8,4 +8,5 @@ export interface ManutencaoResponse {
   odometroVencimento: number | null;
   dataVencimento: string | null;
   valor: number | null;
+  dataConclusao: string | null;
 }
