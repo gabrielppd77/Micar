@@ -14,6 +14,7 @@ import { Fab } from "@/components/Fab";
 import { ManutencaoPendenciaCard } from "@/components/ManutencaoPendenciaCard";
 import { OdometroStatusAlert } from "@/components/OdometroStatusAlert";
 import { ProfileButton } from "@/components/ProfileButton";
+import { VeiculoInfoLine } from "@/components/VeiculoInfoLine";
 import { VeiculoStatusBar } from "@/components/VeiculoStatusBar";
 import { useAppGoTo } from "@/hooks/useAppGoTo";
 import { useSelectedVeiculo } from "@/hooks/useSelectedVeiculo";
@@ -67,14 +68,7 @@ export function HomeScreen() {
       <View className="mb-6 flex-row items-center justify-between">
         <View>
           <Text className="text-3xl font-bold text-brand-900">MICAR</Text>
-          {isLoading ? (
-            <ActivityIndicator className="mt-1 self-start" />
-          ) : (
-            <Text className="text-base text-brand-500">
-              {veiculo?.apelido} · {veiculo?.placa} · {veiculo?.odometroAtual}{" "}
-              km
-            </Text>
-          )}
+          <VeiculoInfoLine veiculo={veiculo} isLoading={isLoading} />
         </View>
         <View className="flex-row items-center gap-3">
           <Pressable

@@ -13,7 +13,7 @@ import { ProfileButton } from "@/components/ProfileButton";
 
 type RecordListScreenProps<T> = {
   title: string;
-  subtitle: string;
+  subtitle: ReactNode;
   data: T[] | undefined;
   isLoading: boolean;
   emptyMessage: string;

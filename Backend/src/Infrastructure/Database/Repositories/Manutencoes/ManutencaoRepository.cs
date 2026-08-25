@@ -27,6 +27,7 @@ public class ManutencaoRepository : IManutencaoRepository
         return await _dbContext.Manutencoes
             .Include(m => m.RegistroOdometro)
             .Where(m => m.VeiculoId == veiculoId)
+            .OrderByDescending(x => x.Data)
             .ToListAsync(ct);
     }
 

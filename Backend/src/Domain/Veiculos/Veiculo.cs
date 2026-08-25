@@ -66,8 +66,6 @@ public class Veiculo : Entity
         DateOnly? dataVencimento,
         decimal? valor)
     {
-        GarantirOdometroValido(odometro);
-
         var manutencao = new Manutencao(data, nome, Id, odometroVencimento, dataVencimento, valor);
         var registroOdometro = new RegistroOdometro(data, odometro, Id, manutencao.Id);
 

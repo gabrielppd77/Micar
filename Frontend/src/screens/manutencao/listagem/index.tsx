@@ -2,21 +2,41 @@ import { useRoute, type RouteProp } from "@react-navigation/native";
 
 import { Button } from "@/components/Button";
 import { RecordListScreen } from "@/components/RecordListScreen";
+import { VeiculoInfoLine } from "@/components/VeiculoInfoLine";
 import { useAppGoTo } from "@/hooks/useAppGoTo";
 import { confirmDelete } from "@/libs/alert";
 import { toDateInput } from "@/libs/date";
 import type { AppStackParamList } from "@/navigation/types";
+import { useVeiculo } from "@/screens/veiculo/queries/useVeiculo";
 import type { ManutencaoResponse } from "../api/types/ManutencaoResponse";
 import { useDeleteManutencao } from "../mutations/useDeleteManutencao";
 import { useManutencoes } from "../queries/useManutencoes";
 
 type ManutencaoListRouteProp = RouteProp<AppStackParamList, "ManutencaoList">;
 
+function formatKmRestante(
+  manutencao: ManutencaoResponse,
+  odometroAtual: number | null | undefined,
+) {
+  if (manutencao.odometroVencimento == null || odometroAtual == null) {
+    return null;
+  }
+
+  const kmRestantes = manutencao.odometroVencimento - odometroAtual;
+
+  if (kmRestantes <= 0) {
+    return null;
+  }
+
+  return `Faltam ${kmRestantes} km`;
+}
+
 export function ManutencaoListScreen() {
   const { goToManutencaoForm, goToHome } = useAppGoTo();
   const route = useRoute<ManutencaoListRouteProp>();
   const { veiculoId } = route.params;
 
+  const { data: veiculo, isLoading: isVeiculoLoading } = useVeiculo(veiculoId);
   const { data: manutencoes, isLoading } = useManutencoes(veiculoId);
   const { mutate: deleteManutencao } = useDeleteManutencao();
 
@@ -35,6 +55,11 @@ export function ManutencaoListScreen() {
       subtitle += ` · ${manutencao.odometro} km`;
     }
 
+    const kmRestantes = formatKmRestante(manutencao, veiculo?.odometroAtual);
+    if (kmRestantes != null) {
+      subtitle += ` · ${kmRestantes}`;
+    }
+
     if (manutencao.valor != null) {
       subtitle += ` · R$ ${manutencao.valor.toFixed(2)}`;
     }
@@ -45,7 +70,9 @@ export function ManutencaoListScreen() {
   return (
     <RecordListScreen
       title="Manutenções"
-      subtitle="Histórico do veículo"
+      subtitle={
+        <VeiculoInfoLine veiculo={veiculo} isLoading={isVeiculoLoading} />
+      }
       data={manutencoes}
       isLoading={isLoading}
       emptyMessage="Nenhuma manutenção registrada."
