@@ -11,6 +11,7 @@
     },
     "android": {
       "package": "com.micar.app",
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "backgroundColor": "#EEF5F9",
         "foregroundImage": "./assets/android-icon-foreground.png",
@@ -23,7 +24,8 @@
     },
     "plugins": [
       "expo-secure-store",
-      "expo-font"
+      "expo-font",
+      "expo-notifications"
     ],
     "extra": {
       "eas": {

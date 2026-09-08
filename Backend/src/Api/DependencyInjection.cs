@@ -1,4 +1,5 @@
 using Api.ExceptionHandling;
+using Api.Filters;
 using System.Text.Json.Serialization;
 
 namespace Api;
@@ -10,6 +11,7 @@ public static class DependencyInjection
         services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
         services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddProblemDetails();
+        services.AddScoped<SchedulerApiKeyFilter>();
     }
 
     public static void UseApi(this WebApplication app)

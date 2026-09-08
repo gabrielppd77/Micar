@@ -30,8 +30,8 @@ export function Button({
         "py-3": !isPrimary,
       })}
     >
-      {loading && isPrimary ? (
-        <ActivityIndicator color="white" />
+      {loading ? (
+        <ActivityIndicator color={isPrimary ? "white" : "#235777"} />
       ) : (
         <Text
           className={clsx("text-base", {

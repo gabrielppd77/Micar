@@ -1,19 +1,25 @@
+using Contracts.PushNotifications;
 using Contracts.Repositories;
 using Contracts.Repositories.Manutencoes;
+using Contracts.Repositories.PushTokens;
 using Contracts.Repositories.Usuarios;
 using Contracts.Repositories.Veiculos;
 using Infrastructure.Authentications;
 using Infrastructure.Database.Context;
 using Infrastructure.Database.Repositories;
 using Infrastructure.Database.Repositories.Manutencoes;
+using Infrastructure.Database.Repositories.PushTokens;
 using Infrastructure.Database.Repositories.Usuarios;
 using Infrastructure.Database.Repositories.Veiculos;
+using Infrastructure.PushNotifications;
+using Infrastructure.Schedulers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Infrastructure;
 
@@ -31,7 +37,15 @@ public static class DependencyInjection
         services.AddScoped<IVeiculoRepository, VeiculoRepository>();
         services.AddScoped<IUsuarioRepository, UsuarioRepository>();
         services.AddScoped<IManutencaoRepository, ManutencaoRepository>();
+        services.AddScoped<IPushTokenRepository, PushTokenRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        services.AddHttpClient<IPushNotificationSender, ExpoPushNotificationSender>();
+
+        var schedulerSettings = configuration
+            .GetRequiredSection(SchedulerSettings.SectionName)
+            .Get<SchedulerSettings>()!;
+        services.AddSingleton(Options.Create(schedulerSettings));
 
         services.AddAuth(configuration);
     }

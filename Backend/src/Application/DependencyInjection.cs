@@ -4,8 +4,12 @@ using Application.Manutencoes.GetAll;
 using Application.Manutencoes.GetById;
 using Application.Manutencoes.GetStatus;
 using Application.Manutencoes.Update;
+using Application.PushNotifications.Enviar;
+using Application.PushTokens.Registrar;
+using Application.PushTokens.Remover;
 using Application.RegistrosOdometro.Create;
 using Application.RegistrosOdometro.GetStatus;
+using Application.RegistrosOdometro.NotificarDesatualizados;
 using Application.Usuarios.Create;
 using Application.Usuarios.Login;
 using Application.Veiculos.Create;
@@ -36,5 +40,9 @@ public static class DependencyInjection
         services.AddScoped<GetManutencaoByIdService>();
         services.AddScoped<GetAllManutencoesService>();
         services.AddScoped<GetStatusManutencoesVeiculoService>();
+        services.AddScoped<RegistrarPushTokenService>();
+        services.AddScoped<RemoverPushTokenService>();
+        services.AddScoped<EnviarNotificacaoService>();
+        services.AddScoped<NotificarOdometrosDesatualizadosService>();
     }
 }

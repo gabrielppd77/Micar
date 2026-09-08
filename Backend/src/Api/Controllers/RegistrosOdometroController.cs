@@ -1,5 +1,8 @@
+using Api.Filters;
 using Application.RegistrosOdometro.Create;
 using Application.RegistrosOdometro.GetStatus;
+using Application.RegistrosOdometro.NotificarDesatualizados;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
@@ -26,5 +29,16 @@ public class RegistrosOdometroController : ControllerBase
     {
         var status = await getStatusOdometroVeiculoService.ExecuteAsync(veiculoId, ct);
         return Ok(status);
+    }
+
+    [HttpPost("notificar-odometros-desatualizados")]
+    [AllowAnonymous]
+    [ServiceFilter(typeof(SchedulerApiKeyFilter))]
+    public async Task<ActionResult<NotificarOdometrosDesatualizadosResponse>> NotificarDesatualizados(
+        NotificarOdometrosDesatualizadosService notificarOdometrosDesatualizadosService,
+        CancellationToken ct)
+    {
+        var resultado = await notificarOdometrosDesatualizadosService.ExecuteAsync(ct);
+        return Ok(resultado);
     }
 }

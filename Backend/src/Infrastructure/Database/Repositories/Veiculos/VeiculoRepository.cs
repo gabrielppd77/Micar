@@ -34,6 +34,13 @@ public class VeiculoRepository : IVeiculoRepository
             .ToListAsync(ct);
     }
 
+    public async Task<List<Veiculo>> GetAllAsync(CancellationToken ct)
+    {
+        return await _dbContext.Veiculos
+            .Include(v => v.RegistrosOdometro.OrderByDescending(r => r.Data).ThenByDescending(r => r.Odometro).Take(1))
+            .ToListAsync(ct);
+    }
+
     public void Remove(Veiculo veiculo)
     {
         _dbContext.Veiculos.Remove(veiculo);

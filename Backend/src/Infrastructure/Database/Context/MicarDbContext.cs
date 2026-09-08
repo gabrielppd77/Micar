@@ -1,5 +1,6 @@
 using Domain.Common;
 using Domain.Manutencoes;
+using Domain.PushTokens;
 using Domain.RegistrosOdometro;
 using Domain.Usuarios;
 using Domain.Veiculos;
@@ -18,6 +19,7 @@ public class MicarDbContext : DbContext
     public DbSet<Usuario> Usuarios => Set<Usuario>();
     public DbSet<RegistroOdometro> RegistrosOdometro => Set<RegistroOdometro>();
     public DbSet<Manutencao> Manutencoes => Set<Manutencao>();
+    public DbSet<PushToken> PushTokens => Set<PushToken>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -1,8 +1,12 @@
-import { useMemo } from "react";
+import Constants from "expo-constants";
+import * as Device from "expo-device";
+import * as Notifications from "expo-notifications";
+import { useMemo, useState } from "react";
 import { Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Button } from "@/components/Button";
+import { useRemoverPushToken } from "@/features/pushNotifications/mutations/useRemoverPushToken";
 import { useAppGoTo } from "@/hooks/useAppGoTo";
 import { useAuth } from "@/hooks/useAuth";
 import { useSelectedVeiculo } from "@/hooks/useSelectedVeiculo";
@@ -12,12 +16,31 @@ export function PerfilScreen() {
   const { token, setToken } = useAuth();
   const { setSelectedVeiculoId } = useSelectedVeiculo();
   const { goToVeiculoList } = useAppGoTo();
+  const { mutateAsync: removerPushToken } = useRemoverPushToken();
+  const [isSaindo, setIsSaindo] = useState(false);
 
   const usuario = useMemo(() => (token ? decodeJwt(token) : null), [token]);
 
-  function handleSair() {
+  async function handleSair() {
+    setIsSaindo(true);
+
+    await removerTokenDoDispositivo();
+
     setToken(null);
     setSelectedVeiculoId(null);
+  }
+
+  async function removerTokenDoDispositivo() {
+    if (!Device.isDevice) return;
+
+    try {
+      const projectId = Constants.expoConfig?.extra?.eas?.projectId;
+      const { data: expoPushToken } = await Notifications.getExpoPushTokenAsync(
+        { projectId },
+      );
+
+      await removerPushToken(expoPushToken);
+    } catch {}
   }
 
   return (
@@ -41,7 +64,12 @@ export function PerfilScreen() {
 
       <View className="gap-3">
         <Button label="Ver veículos" onPress={goToVeiculoList} />
-        <Button label="Sair" onPress={handleSair} variant="ghost" />
+        <Button
+          label="Sair"
+          onPress={() => handleSair()}
+          variant="ghost"
+          loading={isSaindo}
+        />
       </View>
     </SafeAreaView>
   );

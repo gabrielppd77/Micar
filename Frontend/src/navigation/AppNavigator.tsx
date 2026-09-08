@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { usePushNotificationRegistration } from "@/features/pushNotifications/hooks/usePushNotificationRegistration";
 import { useSelectedVeiculo } from "@/hooks/useSelectedVeiculo";
 import { HomeScreen } from "@/screens/home";
 import { ManutencaoFormScreen } from "@/screens/manutencao/formulario";
@@ -16,6 +17,8 @@ const Stack = createNativeStackNavigator<AppStackParamList>();
 
 export function AppNavigator() {
   const { selectedVeiculoId, isLoading } = useSelectedVeiculo();
+
+  usePushNotificationRegistration();
 
   if (isLoading) {
     return (
