@@ -32,7 +32,7 @@ export function VeiculoListScreen() {
     <>
       <StatusBar style="auto" />
       <RecordListScreen
-        title="MICAR"
+        title="Micar"
         subtitle="Seus veículos"
         data={veiculos}
         isLoading={isLoading}

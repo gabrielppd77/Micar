@@ -62,7 +62,7 @@ export function CadastroScreen() {
           keyboardShouldPersistTaps="handled"
         >
           <View className="mb-10 items-center">
-            <Text className="text-4xl font-bold text-brand-900">MICAR</Text>
+            <Text className="text-4xl font-bold text-brand-900">Micar</Text>
           </View>
 
           <View className="rounded-2xl bg-white p-6 shadow-sm">

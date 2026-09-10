@@ -67,7 +67,7 @@ export function HomeScreen() {
 
       <View className="mb-6 flex-row items-center justify-between">
         <View>
-          <Text className="text-3xl font-bold text-brand-900">MICAR</Text>
+          <Text className="text-3xl font-bold text-brand-900">Micar</Text>
           <VeiculoInfoLine veiculo={veiculo} isLoading={isLoading} />
         </View>
         <View className="flex-row items-center gap-3">
