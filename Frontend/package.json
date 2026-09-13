@@ -33,7 +33,8 @@
   "scripts": {
     "start": "expo start --dev-client --lan",
     "android": "expo run:android",
-    "ios": "expo run:ios"
+    "ios": "expo run:ios",
+    "adb:reverse": "%LOCALAPPDATA%\\Android\\Sdk\\platform-tools\\adb.exe reverse tcp:8081 tcp:8081 && %LOCALAPPDATA%\\Android\\Sdk\\platform-tools\\adb.exe reverse tcp:5000 tcp:5000"
   },
   "private": true,
   "engines": {
