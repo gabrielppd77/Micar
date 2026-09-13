@@ -29,6 +29,6 @@ public class GetStatusOdometroVeiculoService
 
         var hoje = DateOnly.FromDateTime(DateTime.UtcNow);
 
-        return new OdometroStatusResponse(veiculo.UltimoRegistroOdometro, hoje);
+        return new OdometroStatusResponse(veiculo.UltimoRegistroOdometro, hoje, veiculo.DiasNotificacaoOdometro);
     }
 }

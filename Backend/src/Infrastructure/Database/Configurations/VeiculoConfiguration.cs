@@ -14,6 +14,8 @@ public class VeiculoConfiguration : IEntityTypeConfiguration<Veiculo>
 
         builder.Property(v => v.Placa).HasMaxLength(Veiculo.PlacaLength);
 
+        builder.Property(v => v.DiasNotificacaoOdometro).HasDefaultValue(Veiculo.DiasNotificacaoOdometroPadrao);
+
         builder.HasOne(v => v.Usuario)
             .WithMany(u => u.Veiculos)
             .HasForeignKey(v => v.UsuarioId)

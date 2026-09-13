@@ -10,9 +10,9 @@ public class OdometroStatusResponse
     public int? Odometro { get; set; }
     public int? DiasSemAtualizacao { get; set; }
 
-    public OdometroStatusResponse(RegistroOdometro? ultimoRegistro, DateOnly hoje)
+    public OdometroStatusResponse(RegistroOdometro? ultimoRegistro, DateOnly hoje, int diasLimiteNotificacao)
     {
-        Status = ultimoRegistro?.CalcularStatus(hoje) ?? NivelAlertaEnum.Critico;
+        Status = ultimoRegistro?.CalcularStatus(hoje, diasLimiteNotificacao) ?? NivelAlertaEnum.Critico;
         UltimaAtualizacao = ultimoRegistro?.Data;
         Odometro = ultimoRegistro?.Odometro;
         DiasSemAtualizacao = ultimoRegistro?.CalcularDiasSemAtualizacao(hoje);

@@ -24,7 +24,7 @@ public class NotificarOdometrosDesatualizadosService
 
         var veiculosDesatualizados = veiculos
             .Where(v => v.UltimoRegistroOdometro is not null
-                && v.UltimoRegistroOdometro.CalcularStatus(hoje) != NivelAlertaEnum.Normal)
+                && v.UltimoRegistroOdometro.CalcularStatus(hoje, v.DiasNotificacaoOdometro) == NivelAlertaEnum.Critico)
             .ToList();
 
         var falhas = new List<NotificacaoFalhaResponse>();

@@ -15,11 +15,13 @@ public class Veiculo : Entity
     public Usuario? Usuario { get; private set; }
     public ICollection<RegistroOdometro> RegistrosOdometro { get; private set; } = new List<RegistroOdometro>();
     public ICollection<Manutencao> Manutencoes { get; private set; } = new List<Manutencao>();
+    public int DiasNotificacaoOdometro { get; private set; }
 
     public RegistroOdometro? UltimoRegistroOdometro =>
         RegistrosOdometro.OrderByDescending(r => r.Data).ThenByDescending(r => r.Odometro).FirstOrDefault();
 
     public const int PlacaLength = 7;
+    public const int DiasNotificacaoOdometroPadrao = 30;
 
     private Veiculo()
     {
@@ -34,21 +36,23 @@ public class Veiculo : Entity
         Apelido = ValidarApelido(apelido);
         TipoVeiculo = tipoVeiculo;
         UsuarioId = usuarioId;
+        DiasNotificacaoOdometro = DiasNotificacaoOdometroPadrao;
     }
 
-    public void Atualizar(string placa, string apelido, TipoVeiculoEnum tipoVeiculo)
+    public void Atualizar(string placa, string apelido, TipoVeiculoEnum tipoVeiculo, int diasNotificacaoOdometro)
     {
         Placa = ValidarPlaca(placa);
         Apelido = ValidarApelido(apelido);
         TipoVeiculo = tipoVeiculo;
+        DiasNotificacaoOdometro = ValidarDiasNotificacaoOdometro(diasNotificacaoOdometro);
     }
 
     public void AtualizarOdometroAtual(int odometro, DateOnly data)
     {
-        if (UltimoRegistroOdometro is not null)
-            UltimoRegistroOdometro.Atualizar(data, odometro);
-        else
+        if (UltimoRegistroOdometro is null)
             RegistrosOdometro.Add(new RegistroOdometro(data, odometro, Id));
+        else if (UltimoRegistroOdometro.Odometro != odometro)
+            UltimoRegistroOdometro.Atualizar(data, odometro);
     }
 
     public void RegistrarOdometro(int odometro, DateOnly data)
@@ -98,5 +102,13 @@ public class Veiculo : Entity
             throw new BadRequestException("Apelido é obrigatório.");
 
         return apelido;
+    }
+
+    private static int ValidarDiasNotificacaoOdometro(int dias)
+    {
+        if (dias <= 0)
+            throw new BadRequestException("Dias para notificação do odômetro deve ser maior que zero.");
+
+        return dias;
     }
 }

@@ -39,6 +39,7 @@ const schema = z.object({
   apelido: z.string().trim().min(1, "Informe o apelido."),
   tipoVeiculo: z.enum(TipoVeiculoEnum),
   odometro: z.string().optional(),
+  diasNotificacaoOdometro: z.string().optional(),
 });
 
 type VeiculoFormValues = z.infer<typeof schema>;
@@ -65,11 +66,13 @@ export function VeiculoFormScreen() {
         apelido: "",
         tipoVeiculo: TipoVeiculoEnum.Carro,
         odometro: undefined,
+        diasNotificacaoOdometro: undefined,
       },
     });
 
   const apelidoRef = useRef<TextInputNative>(null);
   const odometroRef = useRef<TextInputNative>(null);
+  const diasNotificacaoOdometroRef = useRef<TextInputNative>(null);
   const tipoVeiculo = watch("tipoVeiculo");
 
   useEffect(() => {
@@ -81,22 +84,30 @@ export function VeiculoFormScreen() {
         odometro: veiculo.odometroAtual
           ? String(veiculo.odometroAtual)
           : undefined,
+        diasNotificacaoOdometro: String(veiculo.diasNotificacaoOdometro),
       });
     }
   }, [veiculo, reset]);
 
   async function onSubmit(values: VeiculoFormValues) {
-    const payload = {
-      placa: values.placa.toUpperCase(),
-      apelido: values.apelido,
-      tipoVeiculo: values.tipoVeiculo,
-      odometro: values.odometro ? Number(values.odometro) : undefined,
-    };
-
     if (isEditing) {
-      await updateVeiculo({ id, data: payload });
+      await updateVeiculo({
+        id,
+        data: {
+          placa: values.placa.toUpperCase(),
+          apelido: values.apelido,
+          tipoVeiculo: values.tipoVeiculo,
+          odometro: values.odometro ? Number(values.odometro) : undefined,
+          diasNotificacaoOdometro: Number(values.diasNotificacaoOdometro),
+        },
+      });
     } else {
-      await createVeiculo(payload);
+      await createVeiculo({
+        placa: values.placa.toUpperCase(),
+        apelido: values.apelido,
+        tipoVeiculo: values.tipoVeiculo,
+        odometro: values.odometro ? Number(values.odometro) : undefined,
+      });
     }
 
     goToVeiculoList();
@@ -209,11 +220,36 @@ export function VeiculoFormScreen() {
                   error={fieldState.error?.message}
                   keyboardType="numeric"
                   placeholder="Opcional"
-                  returnKeyType="done"
-                  onSubmitEditing={handleSubmit(onSubmit)}
+                  returnKeyType={isEditing ? "next" : "done"}
+                  onSubmitEditing={() =>
+                    isEditing
+                      ? diasNotificacaoOdometroRef.current?.focus()
+                      : handleSubmit(onSubmit)()
+                  }
                 />
               )}
             />
+
+            {isEditing && (
+              <Controller
+                control={control}
+                name="diasNotificacaoOdometro"
+                render={({ field, fieldState }) => (
+                  <TextInput
+                    ref={diasNotificacaoOdometroRef}
+                    label="Alertar odômetro desatualizado após (dias)"
+                    value={field.value ?? ""}
+                    onChangeText={field.onChange}
+                    onBlur={field.onBlur}
+                    error={fieldState.error?.message}
+                    keyboardType="numeric"
+                    placeholder="30"
+                    returnKeyType="done"
+                    onSubmitEditing={handleSubmit(onSubmit)}
+                  />
+                )}
+              />
+            )}
 
             <Button
               label={isEditing ? "Salvar alterações" : "Cadastrar veículo"}

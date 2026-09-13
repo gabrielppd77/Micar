@@ -6,4 +6,5 @@ export interface VeiculoResponse {
   apelido: string;
   tipoVeiculo: TipoVeiculoEnum;
   odometroAtual: number | null;
+  diasNotificacaoOdometro: number;
 }

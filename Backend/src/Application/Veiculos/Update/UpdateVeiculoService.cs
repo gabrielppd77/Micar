@@ -30,7 +30,11 @@ public class UpdateVeiculoService
         if (veiculo is null || veiculo.UsuarioId != usuarioId)
             throw new NotFoundException("Veículo não encontrado.");
 
-        veiculo.Atualizar(request.Placa, request.Apelido, request.TipoVeiculo);
+        veiculo.Atualizar(
+            request.Placa,
+            request.Apelido,
+            request.TipoVeiculo,
+            request.DiasNotificacaoOdometro);
 
         if (request.Odometro.HasValue)
             veiculo.AtualizarOdometroAtual(request.Odometro.Value, DateOnly.FromDateTime(DateTime.UtcNow));

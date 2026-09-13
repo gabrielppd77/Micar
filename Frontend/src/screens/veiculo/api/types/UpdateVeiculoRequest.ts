@@ -5,4 +5,5 @@ export interface UpdateVeiculoRequest {
   apelido: string;
   tipoVeiculo: TipoVeiculoEnum;
   odometro?: number;
+  diasNotificacaoOdometro: number;
 }

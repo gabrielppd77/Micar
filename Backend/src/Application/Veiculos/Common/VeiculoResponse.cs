@@ -9,6 +9,7 @@ public class VeiculoResponse
     public string Apelido { get; set; }
     public TipoVeiculoEnum TipoVeiculo { get; set; }
     public int? OdometroAtual { get; set; }
+    public int DiasNotificacaoOdometro { get; set; }
 
     public VeiculoResponse(Veiculo veiculo)
     {
@@ -17,5 +18,6 @@ public class VeiculoResponse
         Apelido = veiculo.Apelido;
         TipoVeiculo = veiculo.TipoVeiculo;
         OdometroAtual = veiculo.UltimoRegistroOdometro?.Odometro;
+        DiasNotificacaoOdometro = veiculo.DiasNotificacaoOdometro;
     }
 }
