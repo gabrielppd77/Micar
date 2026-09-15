@@ -27,6 +27,6 @@ public static class DependencyInjection
         app.UseAuthorization();
         app.MapControllers().RequireAuthorization();
 
-        app.MapGet("/", () => "Server is living");
+        app.MapGet("/", () => new { Message = "Server is running" });
     }
 }
