@@ -25,7 +25,12 @@ public class CreateVeiculoService
     {
         var usuarioId = _currentUsuarioService.GetUsuarioId();
 
-        var veiculo = new Veiculo(request.Placa, request.Apelido, request.TipoVeiculo, usuarioId);
+        var veiculo = new Veiculo(
+            request.Placa,
+            request.Apelido,
+            request.TipoVeiculo,
+            usuarioId,
+            request.DiasNotificacaoOdometro);
 
         await _veiculoRepository.AddAsync(veiculo, ct);
 

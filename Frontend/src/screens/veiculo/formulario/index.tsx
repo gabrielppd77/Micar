@@ -27,6 +27,7 @@ import { useVeiculo } from "../queries/useVeiculo";
 
 const PLACA_LENGTH = 7;
 const TIPOS_VEICULO = Object.values(TipoVeiculoEnum);
+const DIAS_NOTIFICACAO_ODOMETRO_PADRAO = 30;
 
 const schema = z.object({
   placa: z
@@ -39,7 +40,10 @@ const schema = z.object({
   apelido: z.string().trim().min(1, "Informe o apelido."),
   tipoVeiculo: z.enum(TipoVeiculoEnum),
   odometro: z.string().optional(),
-  diasNotificacaoOdometro: z.string().optional(),
+  diasNotificacaoOdometro: z
+    .string()
+    .trim()
+    .min(1, "Informe os dias para notificação."),
 });
 
 type VeiculoFormValues = z.infer<typeof schema>;
@@ -66,7 +70,7 @@ export function VeiculoFormScreen() {
         apelido: "",
         tipoVeiculo: TipoVeiculoEnum.Carro,
         odometro: undefined,
-        diasNotificacaoOdometro: undefined,
+        diasNotificacaoOdometro: String(DIAS_NOTIFICACAO_ODOMETRO_PADRAO),
       },
     });
 
@@ -90,24 +94,18 @@ export function VeiculoFormScreen() {
   }, [veiculo, reset]);
 
   async function onSubmit(values: VeiculoFormValues) {
+    const payload = {
+      placa: values.placa.toUpperCase(),
+      apelido: values.apelido,
+      tipoVeiculo: values.tipoVeiculo,
+      odometro: values.odometro ? Number(values.odometro) : undefined,
+      diasNotificacaoOdometro: Number(values.diasNotificacaoOdometro),
+    };
+
     if (isEditing) {
-      await updateVeiculo({
-        id,
-        data: {
-          placa: values.placa.toUpperCase(),
-          apelido: values.apelido,
-          tipoVeiculo: values.tipoVeiculo,
-          odometro: values.odometro ? Number(values.odometro) : undefined,
-          diasNotificacaoOdometro: Number(values.diasNotificacaoOdometro),
-        },
-      });
+      await updateVeiculo({ id, data: payload });
     } else {
-      await createVeiculo({
-        placa: values.placa.toUpperCase(),
-        apelido: values.apelido,
-        tipoVeiculo: values.tipoVeiculo,
-        odometro: values.odometro ? Number(values.odometro) : undefined,
-      });
+      await createVeiculo(payload);
     }
 
     goToVeiculoList();
@@ -220,36 +218,32 @@ export function VeiculoFormScreen() {
                   error={fieldState.error?.message}
                   keyboardType="numeric"
                   placeholder="Opcional"
-                  returnKeyType={isEditing ? "next" : "done"}
+                  returnKeyType="next"
                   onSubmitEditing={() =>
-                    isEditing
-                      ? diasNotificacaoOdometroRef.current?.focus()
-                      : handleSubmit(onSubmit)()
+                    diasNotificacaoOdometroRef.current?.focus()
                   }
                 />
               )}
             />
 
-            {isEditing && (
-              <Controller
-                control={control}
-                name="diasNotificacaoOdometro"
-                render={({ field, fieldState }) => (
-                  <TextInput
-                    ref={diasNotificacaoOdometroRef}
-                    label="Alertar odômetro desatualizado após (dias)"
-                    value={field.value ?? ""}
-                    onChangeText={field.onChange}
-                    onBlur={field.onBlur}
-                    error={fieldState.error?.message}
-                    keyboardType="numeric"
-                    placeholder="30"
-                    returnKeyType="done"
-                    onSubmitEditing={handleSubmit(onSubmit)}
-                  />
-                )}
-              />
-            )}
+            <Controller
+              control={control}
+              name="diasNotificacaoOdometro"
+              render={({ field, fieldState }) => (
+                <TextInput
+                  ref={diasNotificacaoOdometroRef}
+                  label="Alertar odômetro desatualizado após (dias)"
+                  value={field.value ?? ""}
+                  onChangeText={field.onChange}
+                  onBlur={field.onBlur}
+                  error={fieldState.error?.message}
+                  keyboardType="numeric"
+                  placeholder="30"
+                  returnKeyType="done"
+                  onSubmitEditing={handleSubmit(onSubmit)}
+                />
+              )}
+            />
 
             <Button
               label={isEditing ? "Salvar alterações" : "Cadastrar veículo"}

@@ -8,4 +8,5 @@ public class CreateVeiculoRequest
     public required string Apelido { get; set; }
     public required TipoVeiculoEnum TipoVeiculo { get; set; }
     public int? Odometro { get; set; }
+    public required int DiasNotificacaoOdometro { get; set; }
 }

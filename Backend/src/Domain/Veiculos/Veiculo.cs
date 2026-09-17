@@ -27,7 +27,12 @@ public class Veiculo : Entity
     {
     }
 
-    public Veiculo(string placa, string apelido, TipoVeiculoEnum tipoVeiculo, Guid usuarioId)
+    public Veiculo(
+        string placa,
+        string apelido,
+        TipoVeiculoEnum tipoVeiculo,
+        Guid usuarioId,
+        int diasNotificacaoOdometro)
     {
         if (usuarioId == Guid.Empty)
             throw new BadRequestException("Usuário é obrigatório.");
@@ -36,7 +41,7 @@ public class Veiculo : Entity
         Apelido = ValidarApelido(apelido);
         TipoVeiculo = tipoVeiculo;
         UsuarioId = usuarioId;
-        DiasNotificacaoOdometro = DiasNotificacaoOdometroPadrao;
+        DiasNotificacaoOdometro = ValidarDiasNotificacaoOdometro(diasNotificacaoOdometro);
     }
 
     public void Atualizar(string placa, string apelido, TipoVeiculoEnum tipoVeiculo, int diasNotificacaoOdometro)
