@@ -27,9 +27,10 @@ public class ManutencoesController : ControllerBase
     public async Task<ActionResult<List<ManutencaoResponse>>> GetAll(
         GetAllManutencoesService getAllManutencoesService,
         Guid veiculoId,
+        [FromQuery] string? termo,
         CancellationToken ct)
     {
-        var manutencoes = await getAllManutencoesService.ExecuteAsync(veiculoId, ct);
+        var manutencoes = await getAllManutencoesService.ExecuteAsync(veiculoId, termo, ct);
         return Ok(manutencoes);
     }
 

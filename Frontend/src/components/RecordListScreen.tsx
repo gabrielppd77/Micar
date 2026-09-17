@@ -5,11 +5,18 @@ import {
   FlatList,
   Pressable,
   Text,
+  TextInput,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { ProfileButton } from "@/components/ProfileButton";
+
+type RecordListScreenSearchProps = {
+  value: string;
+  onChangeText: (value: string) => void;
+  placeholder?: string;
+};
 
 type RecordListScreenProps<T> = {
   title: string;
@@ -23,6 +30,7 @@ type RecordListScreenProps<T> = {
   onEdit: (item: T) => void;
   onDelete: (item: T) => void;
   onSelect?: (item: T) => void;
+  search?: RecordListScreenSearchProps;
   footer: ReactNode;
 };
 
@@ -38,6 +46,7 @@ export function RecordListScreen<T>({
   onEdit,
   onDelete,
   onSelect,
+  search,
   footer,
 }: RecordListScreenProps<T>) {
   return (
@@ -52,6 +61,24 @@ export function RecordListScreen<T>({
         </View>
         <ProfileButton />
       </View>
+
+      {search && (
+        <View className="mb-4 flex-row items-center rounded-xl border border-brand-200 bg-white px-4">
+          <Ionicons name="search" size={18} color="#9CA3AF" />
+          <TextInput
+            value={search.value}
+            onChangeText={search.onChangeText}
+            placeholder={search.placeholder ?? "Buscar"}
+            placeholderTextColor="#9CA3AF"
+            className="ml-2 flex-1 py-3 text-base text-brand-900"
+          />
+          {search.value.length > 0 && (
+            <Pressable onPress={() => search.onChangeText("")}>
+              <Ionicons name="close-circle" size={18} color="#9CA3AF" />
+            </Pressable>
+          )}
+        </View>
+      )}
 
       {isLoading ? (
         <ActivityIndicator className="mt-8" />

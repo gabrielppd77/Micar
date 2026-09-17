@@ -22,7 +22,7 @@ public class GetAllManutencoesService
         _currentUsuarioService = currentUsuarioService;
     }
 
-    public async Task<List<ManutencaoResponse>> ExecuteAsync(Guid veiculoId, CancellationToken ct)
+    public async Task<List<ManutencaoResponse>> ExecuteAsync(Guid veiculoId, string? termo, CancellationToken ct)
     {
         var usuarioId = _currentUsuarioService.GetUsuarioId();
 
@@ -31,7 +31,7 @@ public class GetAllManutencoesService
         if (veiculo is null || veiculo.UsuarioId != usuarioId)
             throw new NotFoundException("Veículo não encontrado.");
 
-        var manutencoes = await _manutencaoRepository.GetAllByVeiculoIdAsync(veiculoId, ct);
+        var manutencoes = await _manutencaoRepository.GetAllByVeiculoIdAsync(veiculoId, termo, ct);
 
         var hoje = DateOnly.FromDateTime(DateTime.UtcNow);
         var odometroAtual = veiculo.UltimoRegistroOdometro?.Odometro;

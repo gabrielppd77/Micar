@@ -1,4 +1,5 @@
 import { useRoute, type RouteProp } from "@react-navigation/native";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/Button";
 import { RecordListScreen } from "@/components/RecordListScreen";
@@ -36,8 +37,20 @@ export function ManutencaoListScreen() {
   const { veiculoId } = route.params;
 
   const { data: veiculo, isLoading: isVeiculoLoading } = useVeiculo(veiculoId);
-  const { data: manutencoes, isLoading } = useManutencoes(veiculoId);
   const { mutate: deleteManutencao } = useDeleteManutencao();
+
+  const [termo, setTermo] = useState("");
+  const [termoBusca, setTermoBusca] = useState("");
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setTermoBusca(termo), 300);
+    return () => clearTimeout(timeout);
+  }, [termo]);
+
+  const { data: manutencoes, isLoading } = useManutencoes(
+    veiculoId,
+    termoBusca,
+  );
 
   function handleDelete(manutencao: ManutencaoResponse) {
     confirmDelete({
@@ -80,6 +93,11 @@ export function ManutencaoListScreen() {
       data={manutencoes}
       isLoading={isLoading}
       emptyMessage="Nenhuma manutenção registrada."
+      search={{
+        value: termo,
+        onChangeText: setTermo,
+        placeholder: "Buscar manutenção",
+      }}
       keyExtractor={(manutencao) => manutencao.id}
       renderTitle={(manutencao) => manutencao.nome}
       renderSubtitle={renderSubtitle}

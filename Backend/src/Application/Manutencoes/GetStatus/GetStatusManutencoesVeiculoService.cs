@@ -31,7 +31,7 @@ public class GetStatusManutencoesVeiculoService
         if (veiculo is null || veiculo.UsuarioId != usuarioId)
             throw new NotFoundException("Veículo não encontrado.");
 
-        var manutencoes = await _manutencaoRepository.GetAllByVeiculoIdAsync(veiculoId, ct);
+        var manutencoes = await _manutencaoRepository.GetAllByVeiculoIdAsync(veiculoId, null, ct);
 
         var hoje = DateOnly.FromDateTime(DateTime.UtcNow);
         var odometroAtual = veiculo.UltimoRegistroOdometro?.Odometro;

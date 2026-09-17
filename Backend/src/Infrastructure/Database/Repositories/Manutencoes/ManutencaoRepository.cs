@@ -23,11 +23,16 @@ public class ManutencaoRepository : IManutencaoRepository
             .FirstOrDefaultAsync(m => m.Id == id, ct);
     }
 
-    public async Task<List<Manutencao>> GetAllByVeiculoIdAsync(Guid veiculoId, CancellationToken ct)
+    public async Task<List<Manutencao>> GetAllByVeiculoIdAsync(Guid veiculoId, string? termo, CancellationToken ct)
     {
-        return await _dbContext.Manutencoes
+        var query = _dbContext.Manutencoes
             .Include(m => m.RegistroOdometro)
-            .Where(m => m.VeiculoId == veiculoId)
+            .Where(m => m.VeiculoId == veiculoId);
+
+        if (!string.IsNullOrWhiteSpace(termo))
+            query = query.Where(m => EF.Functions.ILike(m.Nome, $"%{termo}%"));
+
+        return await query
             .OrderByDescending(x => x.Data)
             .ToListAsync(ct);
     }
