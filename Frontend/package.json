@@ -31,10 +31,12 @@
     "zod": "^4.4.3"
   },
   "scripts": {
-    "start": "expo start --dev-client --lan",
+    "prebuild:android": "expo prebuild --platform android",
     "android": "expo run:android",
     "ios": "expo run:ios",
-    "adb:reverse": "%LOCALAPPDATA%\\Android\\Sdk\\platform-tools\\adb.exe reverse tcp:8081 tcp:8081 && %LOCALAPPDATA%\\Android\\Sdk\\platform-tools\\adb.exe reverse tcp:5000 tcp:5000"
+    "adb:reverse": "%LOCALAPPDATA%\\Android\\Sdk\\platform-tools\\adb.exe reverse tcp:8081 tcp:8081 && %LOCALAPPDATA%\\Android\\Sdk\\platform-tools\\adb.exe reverse tcp:5000 tcp:5000",
+    "build:android:prod": "cd android && gradlew.bat assembleRelease",
+    "install:android:prod": "%LOCALAPPDATA%\\Android\\Sdk\\platform-tools\\adb.exe install -r android\\app\\build\\outputs\\apk\\release\\app-release.apk"
   },
   "private": true,
   "engines": {
