@@ -73,9 +73,10 @@ public class Veiculo : Entity
         int odometro,
         int? odometroVencimento,
         DateOnly? dataVencimento,
-        decimal? valor)
+        decimal? valor,
+        string? descricao)
     {
-        var manutencao = new Manutencao(data, nome, Id, odometroVencimento, dataVencimento, valor);
+        var manutencao = new Manutencao(data, nome, Id, odometroVencimento, dataVencimento, valor, descricao);
         var registroOdometro = new RegistroOdometro(data, odometro, Id, manutencao.Id);
 
         manutencao.VincularRegistroOdometro(registroOdometro);

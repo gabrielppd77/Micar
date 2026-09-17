@@ -54,6 +54,7 @@ const schema = z.object({
     )
     .optional(),
   dataConclusao: zDateBR({ required: false }),
+  descricao: z.string().trim().optional(),
 });
 
 type ManutencaoFormInput = z.input<typeof schema>;
@@ -85,6 +86,7 @@ export function ManutencaoFormScreen() {
         dataVencimento: "",
         valor: "",
         dataConclusao: "",
+        descricao: "",
       },
     });
 
@@ -93,6 +95,7 @@ export function ManutencaoFormScreen() {
   const odometroVencimentoRef = useRef<TextInputNative>(null);
   const dataVencimentoRef = useRef<TextInputNative>(null);
   const valorRef = useRef<TextInputNative>(null);
+  const descricaoRef = useRef<TextInputNative>(null);
   const dataConclusaoRef = useRef<TextInputNative>(null);
   const odometroInicializado = useRef(false);
 
@@ -114,6 +117,7 @@ export function ManutencaoFormScreen() {
         dataConclusao: manutencao.dataConclusao
           ? toDateInput(manutencao.dataConclusao)
           : "",
+        descricao: manutencao.descricao ?? "",
       });
     }
   }, [manutencao, reset]);
@@ -143,6 +147,7 @@ export function ManutencaoFormScreen() {
           dataVencimento: values.dataVencimento,
           valor: values.valor ? Number(values.valor) : undefined,
           dataConclusao: values.dataConclusao,
+          descricao: values.descricao || undefined,
         },
       });
     } else {
@@ -156,6 +161,7 @@ export function ManutencaoFormScreen() {
           : undefined,
         dataVencimento: values.dataVencimento,
         valor: values.valor ? Number(values.valor) : undefined,
+        descricao: values.descricao || undefined,
       });
     }
 
@@ -302,12 +308,26 @@ export function ManutencaoFormScreen() {
                   error={fieldState.error?.message}
                   keyboardType="numeric"
                   placeholder="Opcional"
-                  returnKeyType={isEditing ? "next" : "done"}
-                  onSubmitEditing={
-                    isEditing
-                      ? () => dataConclusaoRef.current?.focus()
-                      : handleSubmit(onSubmit)
-                  }
+                  returnKeyType="next"
+                  onSubmitEditing={() => descricaoRef.current?.focus()}
+                />
+              )}
+            />
+
+            <Controller
+              control={control}
+              name="descricao"
+              render={({ field, fieldState }) => (
+                <TextInput
+                  ref={descricaoRef}
+                  label="Descrição"
+                  value={field.value}
+                  onChangeText={field.onChange}
+                  onBlur={field.onBlur}
+                  error={fieldState.error?.message}
+                  placeholder="Opcional · detalhes sobre a manutenção"
+                  multiline
+                  numberOfLines={4}
                 />
               )}
             />

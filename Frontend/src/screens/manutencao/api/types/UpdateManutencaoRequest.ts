@@ -6,4 +6,5 @@ export interface UpdateManutencaoRequest {
   dataVencimento?: string;
   valor?: number;
   dataConclusao?: string;
+  descricao?: string;
 }

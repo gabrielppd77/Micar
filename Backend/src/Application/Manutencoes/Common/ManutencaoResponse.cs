@@ -16,6 +16,7 @@ public class ManutencaoResponse
     public DateOnly? DataConclusao { get; set; }
     public int? DiasRestantes { get; set; }
     public int? KmRestantes { get; set; }
+    public string? Descricao { get; set; }
 
     public ManutencaoResponse(Manutencao manutencao, DateOnly hoje, int? odometroAtual)
     {
@@ -31,5 +32,6 @@ public class ManutencaoResponse
         DataConclusao = manutencao.DataConclusao;
         DiasRestantes = manutencao.CalcularDiasRestantes(hoje);
         KmRestantes = manutencao.CalcularKmRestantes(odometroAtual);
+        Descricao = manutencao.Descricao;
     }
 }

@@ -15,23 +15,29 @@ export type TextInputProps = TextInputPropsNative & {
 
 export const TextInput = forwardRef<TextInputNative, TextInputProps>(
   function TextInput(
-    { label, error, isPassword = false, ...inputProps },
+    { label, error, isPassword = false, multiline, ...inputProps },
     ref,
   ) {
     const [hidden, setHidden] = useState(isPassword);
 
     return (
       <View className="mb-4">
-        <Text className="mb-1 text-sm font-medium text-brand-900">
-          {label}
-        </Text>
-        <View className="flex-row items-center rounded-xl border border-brand-200 bg-white px-4">
+        <Text className="mb-1 text-sm font-medium text-brand-900">{label}</Text>
+        <View
+          className={`rounded-xl border border-brand-200 bg-white px-4 ${
+            multiline ? "" : "flex-row items-center"
+          }`}
+        >
           <TextInputNative
             ref={ref}
             {...inputProps}
+            multiline={multiline}
             secureTextEntry={isPassword && hidden}
             placeholderTextColor="#9CA3AF"
-            className="flex-1 py-3 text-base text-brand-900"
+            textAlignVertical={multiline ? "top" : undefined}
+            className={`py-3 text-base text-brand-900 ${
+              multiline ? "min-h-[100px] w-full" : "flex-1"
+            }`}
           />
           {isPassword && (
             <Pressable onPress={() => setHidden((prev) => !prev)}>

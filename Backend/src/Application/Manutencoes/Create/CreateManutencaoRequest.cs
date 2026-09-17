@@ -9,4 +9,5 @@ public class CreateManutencaoRequest
     public int? OdometroVencimento { get; set; }
     public DateOnly? DataVencimento { get; set; }
     public decimal? Valor { get; set; }
+    public string? Descricao { get; set; }
 }

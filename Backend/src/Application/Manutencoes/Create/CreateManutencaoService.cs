@@ -36,7 +36,8 @@ public class CreateManutencaoService
             request.Odometro,
             request.OdometroVencimento,
             request.DataVencimento,
-            request.Valor);
+            request.Valor,
+            request.Descricao);
 
         await _unitOfWork.SaveChangesAsync(ct);
     }
