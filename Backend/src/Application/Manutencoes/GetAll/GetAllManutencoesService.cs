@@ -33,6 +33,9 @@ public class GetAllManutencoesService
 
         var manutencoes = await _manutencaoRepository.GetAllByVeiculoIdAsync(veiculoId, ct);
 
-        return manutencoes.Select(x => new ManutencaoResponse(x)).ToList();
+        var hoje = DateOnly.FromDateTime(DateTime.UtcNow);
+        var odometroAtual = veiculo.UltimoRegistroOdometro?.Odometro;
+
+        return manutencoes.Select(x => new ManutencaoResponse(x, hoje, odometroAtual)).ToList();
     }
 }

@@ -14,8 +14,10 @@ public class ManutencaoResponse
     public DateOnly? DataVencimento { get; set; }
     public decimal? Valor { get; set; }
     public DateOnly? DataConclusao { get; set; }
+    public int? DiasRestantes { get; set; }
+    public int? KmRestantes { get; set; }
 
-    public ManutencaoResponse(Manutencao manutencao)
+    public ManutencaoResponse(Manutencao manutencao, DateOnly hoje, int? odometroAtual)
     {
         Id = manutencao.Id;
         Data = manutencao.Data;
@@ -27,5 +29,7 @@ public class ManutencaoResponse
         DataVencimento = manutencao.DataVencimento;
         Valor = manutencao.Valor;
         DataConclusao = manutencao.DataConclusao;
+        DiasRestantes = manutencao.CalcularDiasRestantes(hoje);
+        KmRestantes = manutencao.CalcularKmRestantes(odometroAtual);
     }
 }

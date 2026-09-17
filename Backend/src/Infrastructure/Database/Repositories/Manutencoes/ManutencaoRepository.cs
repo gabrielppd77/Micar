@@ -18,6 +18,7 @@ public class ManutencaoRepository : IManutencaoRepository
     {
         return await _dbContext.Manutencoes
             .Include(m => m.Veiculo)
+                .ThenInclude(v => v!.RegistrosOdometro.OrderByDescending(r => r.Data).ThenByDescending(r => r.Odometro).Take(1))
             .Include(m => m.RegistroOdometro)
             .FirstOrDefaultAsync(m => m.Id == id, ct);
     }

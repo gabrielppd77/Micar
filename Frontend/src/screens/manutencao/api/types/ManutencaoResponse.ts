@@ -9,4 +9,6 @@ export interface ManutencaoResponse {
   dataVencimento: string | null;
   valor: number | null;
   dataConclusao: string | null;
+  diasRestantes: number | null;
+  kmRestantes: number | null;
 }

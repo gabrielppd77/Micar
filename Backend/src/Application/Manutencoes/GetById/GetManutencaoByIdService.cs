@@ -27,6 +27,9 @@ public class GetManutencaoByIdService
         if (manutencao is null || manutencao.Veiculo?.UsuarioId != usuarioId)
             throw new NotFoundException("Manutenção não encontrada.");
 
-        return new ManutencaoResponse(manutencao);
+        var hoje = DateOnly.FromDateTime(DateTime.UtcNow);
+        var odometroAtual = manutencao.Veiculo?.UltimoRegistroOdometro?.Odometro;
+
+        return new ManutencaoResponse(manutencao, hoje, odometroAtual);
     }
 }

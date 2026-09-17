@@ -52,6 +52,20 @@ public class Manutencao : Entity
         return statusPorData > statusPorOdometro ? statusPorData : statusPorOdometro;
     }
 
+    public int? CalcularDiasRestantes(DateOnly hoje)
+    {
+        return DataVencimento is not null
+            ? DataVencimento.Value.DayNumber - hoje.DayNumber
+            : null;
+    }
+
+    public int? CalcularKmRestantes(int? odometroAtual)
+    {
+        return OdometroVencimento is not null && odometroAtual is not null
+            ? OdometroVencimento.Value - odometroAtual.Value
+            : null;
+    }
+
     private NivelAlertaEnum CalcularStatusPorData(DateOnly hoje)
     {
         if (DataVencimento is null)

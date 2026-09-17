@@ -14,21 +14,20 @@ import { useManutencoes } from "../queries/useManutencoes";
 
 type ManutencaoListRouteProp = RouteProp<AppStackParamList, "ManutencaoList">;
 
-function formatKmRestante(
-  manutencao: ManutencaoResponse,
-  odometroAtual: number | null | undefined,
-) {
-  if (manutencao.odometroVencimento == null || odometroAtual == null) {
+function formatKmRestante(manutencao: ManutencaoResponse) {
+  if (manutencao.kmRestantes == null || manutencao.kmRestantes <= 0) {
     return null;
   }
 
-  const kmRestantes = manutencao.odometroVencimento - odometroAtual;
+  return `Faltam ${manutencao.kmRestantes} km`;
+}
 
-  if (kmRestantes <= 0) {
+function formatDiasRestante(manutencao: ManutencaoResponse) {
+  if (manutencao.diasRestantes == null || manutencao.diasRestantes <= 0) {
     return null;
   }
 
-  return `Faltam ${kmRestantes} km`;
+  return `Faltam ${manutencao.diasRestantes} dia(s)`;
 }
 
 export function ManutencaoListScreen() {
@@ -55,9 +54,14 @@ export function ManutencaoListScreen() {
       subtitle += ` · ${manutencao.odometro} km`;
     }
 
-    const kmRestantes = formatKmRestante(manutencao, veiculo?.odometroAtual);
+    const kmRestantes = formatKmRestante(manutencao);
     if (kmRestantes != null) {
       subtitle += ` · ${kmRestantes}`;
+    }
+
+    const diasRestantes = formatDiasRestante(manutencao);
+    if (diasRestantes != null) {
+      subtitle += ` · ${diasRestantes}`;
     }
 
     if (manutencao.valor != null) {

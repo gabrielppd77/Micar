@@ -19,12 +19,8 @@ public class ManutencaoPendenciaResponse
         Nome = manutencao.Nome;
         Status = manutencao.CalcularStatus(hoje, odometroAtual);
         DataVencimento = manutencao.DataVencimento;
-        DiasRestantes = manutencao.DataVencimento is not null
-            ? manutencao.DataVencimento.Value.DayNumber - hoje.DayNumber
-            : null;
+        DiasRestantes = manutencao.CalcularDiasRestantes(hoje);
         OdometroVencimento = manutencao.OdometroVencimento;
-        KmRestantes = manutencao.OdometroVencimento is not null && odometroAtual is not null
-            ? manutencao.OdometroVencimento.Value - odometroAtual.Value
-            : null;
+        KmRestantes = manutencao.CalcularKmRestantes(odometroAtual);
     }
 }
